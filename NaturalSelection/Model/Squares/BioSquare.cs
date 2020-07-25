@@ -31,8 +31,6 @@ namespace NaturalSelection.Model
         public BioSquare(int x, int y) : base(x, y)
         {
             TypeSquare = TypeSquare.BIO;
-            PointX = x;
-            PointY = y;
         }
 
         public object Clone()

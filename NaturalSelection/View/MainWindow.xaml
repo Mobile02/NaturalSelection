@@ -6,96 +6,76 @@
     xmlns:local="clr-namespace:NaturalSelection"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:user="clr-namespace:NaturalSelection.ViewModel"
-    Title="MainWindow"
+    Title="Natural selection"
     Width="800"
     Height="450"
     d:DataContext="{d:DesignInstance user:MainWindowViewModel}"
+    ResizeMode="NoResize"
+    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+    SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
-
+    
+<!-- Попробовать переделать на триггеры-->
     <Window.Resources>
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
-            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid
-                            Width="15"
-                            Height="15"
-                            Margin="1"
-                            Background="Gray">
-                            <TextBlock
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="10"
-                                Foreground="White"
-                                Text="{Binding Health}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid
+                Width="15"
+                Height="15"
+                Margin="1"
+                Background="Gray">
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="{Binding Health}" />
+            </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelEmpty}">
-            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid
-                            Width="15"
-                            Height="15"
-                            Margin="1"
-                            Background="WhiteSmoke">
-                            <TextBlock
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="10"
-                                Foreground="White"
-                                Text="{Binding Health}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid
+                Width="15"
+                Height="15"
+                Margin="1"
+                Background="WhiteSmoke">
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="{Binding Health}" />
+            </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelAcid}">
-            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid
-                            Width="15"
-                            Height="15"
-                            Margin="1"
-                            Background="Red">
-                            <TextBlock
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="10"
-                                Foreground="White"
-                                Text="{Binding Health}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid
+                Width="15"
+                Height="15"
+                Margin="1"
+                Background="Red">
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="{Binding Health}" />
+            </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelFood}">
-            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid
-                            Width="15"
-                            Height="15"
-                            Margin="1"
-                            Background="Green">
-                            <TextBlock
-                                Margin="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="10"
-                                Foreground="White"
-                                Text="{Binding Health}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid
+                Width="15"
+                Height="15"
+                Margin="1"
+                Background="Green">
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="{Binding Health}" />
+            </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelBio}">
             <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">
@@ -129,9 +109,9 @@
                             <StackPanel IsItemsHost="True" Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-
                 </ItemsControl>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
+
 </Window>

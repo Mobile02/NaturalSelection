@@ -11,6 +11,7 @@ namespace NaturalSelection.ViewModel
     {
         private ViewModelSquares[][] worldMap;
         private Constants constants = new Constants();
+        private Engine engine;
 
         public ViewModelSquares[][] WorldMap 
         { 
@@ -22,13 +23,14 @@ namespace NaturalSelection.ViewModel
             }
         }
 
-        Engine engine = new Engine();
 
         public MainWindowViewModel()
         {
+            engine = new Engine();
+
             WorldMap = new ViewModelSquares[constants.WorldSizeY][];
 
-            for (int y = 0; y < constants.WorldSizeY; y++)
+            for (int y = 0; y < constants.WorldSizeY; y++)                                   //TODO: По моему какая то лабуда
             {
                 WorldMap[y] = new ViewModelSquares[constants.WorldSizeX];
                 for (int x = 0; x < constants.WorldSizeX; x++)

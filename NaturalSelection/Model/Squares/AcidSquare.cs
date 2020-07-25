@@ -11,8 +11,6 @@ namespace NaturalSelection.Model
         public AcidSquare(int x, int y) : base(x, y)
         {
             TypeSquare = TypeSquare.ACID;
-            PointX = x;
-            PointY = y;
         }
     }
 }
