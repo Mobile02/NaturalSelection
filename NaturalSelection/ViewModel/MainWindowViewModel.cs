@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NaturalSelection.ViewModel
@@ -28,6 +29,13 @@ namespace NaturalSelection.ViewModel
         {
             engine = new Engine();
 
+            RefreshMap();
+
+            new Thread(start) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
+        }
+
+        private void RefreshMap()
+        {
             WorldMap = new ViewModelSquares[constants.WorldSizeY][];
 
             for (int y = 0; y < constants.WorldSizeY; y++)                                   //TODO: По моему какая то лабуда
@@ -35,7 +43,7 @@ namespace NaturalSelection.ViewModel
                 WorldMap[y] = new ViewModelSquares[constants.WorldSizeX];
                 for (int x = 0; x < constants.WorldSizeX; x++)
                 {
-                    if(engine.WorldMap[y][x].TypeSquare == TypeSquare.ACID)
+                    if (engine.WorldMap[y][x].TypeSquare == TypeSquare.ACID)
                     {
                         WorldMap[y][x] = new ViewModelAcid((AcidSquare)engine.WorldMap[y][x]);
                     }
@@ -57,6 +65,11 @@ namespace NaturalSelection.ViewModel
                     }
                 }
             }
+        }
+
+        private void start()
+        {
+            engine.test();
         }
     }
 }

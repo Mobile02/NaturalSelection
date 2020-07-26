@@ -23,13 +23,6 @@
                 Height="15"
                 Margin="1"
                 Background="Gray">
-                <TextBlock
-                    Margin="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    Foreground="White"
-                    Text="{Binding Health}" />
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelEmpty}">
@@ -38,13 +31,6 @@
                 Height="15"
                 Margin="1"
                 Background="WhiteSmoke">
-                <TextBlock
-                    Margin="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    Foreground="White"
-                    Text="{Binding Health}" />
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelAcid}">
@@ -53,13 +39,6 @@
                 Height="15"
                 Margin="1"
                 Background="Red">
-                <TextBlock
-                    Margin="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    Foreground="White"
-                    Text="{Binding Health}" />
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelFood}">
@@ -68,13 +47,6 @@
                 Height="15"
                 Margin="1"
                 Background="Green">
-                <TextBlock
-                    Margin="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    Foreground="White"
-                    Text="{Binding Health}" />
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelBio}">
@@ -92,7 +64,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="10"
                                 Foreground="White"
-                                Text="{Binding Health}" />
+                                Text="{Binding Health, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>
@@ -100,10 +72,10 @@
         </DataTemplate>
     </Window.Resources>
 
-    <ItemsControl ItemsSource="{Binding WorldMap}">
+    <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <ItemsControl ItemsSource="{Binding}">
+                <ItemsControl ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel IsItemsHost="True" Orientation="Horizontal" />

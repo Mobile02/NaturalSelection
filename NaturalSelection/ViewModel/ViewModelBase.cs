@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace NaturalSelection.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanging
+    public class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangingEventHandler PropertyChanging;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged(string propertyName)
         {
-            var e = PropertyChanging;
-            if (e != null)
-            {
-                e(this, new PropertyChangingEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
