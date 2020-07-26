@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaturalSelection.Model.Support;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -81,6 +82,7 @@ namespace NaturalSelection.Model
                         Health = constants.HealthSquare,
                         Direction = (Direction)random.Next(8)
                     };
+                    Counter.CountLiveBio++;
                     count--;
                 }
             }
@@ -96,6 +98,7 @@ namespace NaturalSelection.Model
                 if (worldMap[y][x] is EmptySquare)
                 {
                     worldMap[y][x] = new AcidSquare(x, y);
+                    Counter.CountAcid++;
                     count--;
                 }
             }
@@ -111,6 +114,7 @@ namespace NaturalSelection.Model
                 if (worldMap[y][x] is EmptySquare)
                 {
                     worldMap[y][x] = new FoodSquare(x, y);
+                    Counter.CountFood++;
                     count--;
                 }
             }

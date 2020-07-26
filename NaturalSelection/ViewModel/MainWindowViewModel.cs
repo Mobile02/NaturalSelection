@@ -30,8 +30,6 @@ namespace NaturalSelection.ViewModel
             engine = new Engine();
 
             RefreshMap();
-
-            new Thread(start) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
         }
 
         private void RefreshMap()
@@ -57,11 +55,6 @@ namespace NaturalSelection.ViewModel
         private void On_ChangeCoordinate(object sender, System.Windows.Point e)
         {
             RefreshMap();
-        }
-
-        private void start()
-        {
-            engine.test();
         }
     }
 }

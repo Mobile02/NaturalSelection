@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaturalSelection.Model.Support;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,22 +26,28 @@ namespace NaturalSelection.Model
             new CreatorSquares().AddFood(WorldMap, constants.CountFood);
             new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
 
+            new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
         }
 
-        public void test()
+        private void MainAsync()
         {
-            for (int y = 1; y < constants.WorldSizeY - 1; y++)
+            for (int gen = 0; gen < constants.CountCicle; gen++)
             {
-                for (int x = 1; x < constants.WorldSizeX - 1; x++)
+                for (int i = 0; i < int.MaxValue; i++)
                 {
-                    if (WorldMap[y][x] is BioSquare)
+                    Thread.Sleep(100);
+
+                    new BehaviorSquare(WorldMap);
+
+                    if (Counter.CountLiveBio <= (constants.CountBio / 8))
                     {
-                        Thread.Sleep(10);
-                        (WorldMap[y][x] as BioSquare).Health--;
-                        (WorldMap[y][x] as BioSquare).Coordinate = new Point(x + 1, y);
-                        (WorldMap[y][x] as BioSquare).Coordinate = new Point(x, y + 1);
-                        (WorldMap[y + 1][x + 1]) = WorldMap[y][x];
-                        WorldMap[y][x] = new EmptySquare(x, y);
+                        //new CreatorSquares().RefreshSquare(WorldMap);
+                        //new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
+                        //new CreatorSquares().AddFood(WorldMap, constants.CountFood);
+                        new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio - Counter.CountLiveBio);
+                        //Counter.CountLiveBio = constants.CountBio;
+
+                        i = int.MaxValue - 1;
                     }
                 }
             }

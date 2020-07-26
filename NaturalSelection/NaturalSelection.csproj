@@ -63,12 +63,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\BehaviorSquare.cs" />
     <Compile Include="Model\CreatorSquares.cs" />
     <Compile Include="Model\Engine.cs" />
     <Compile Include="Model\Squares\AcidSquare.cs" />
     <Compile Include="Model\Squares\BaseSquare.cs" />
     <Compile Include="Model\Squares\BioSquare.cs" />
     <Compile Include="Model\Support\Constants.cs" />
+    <Compile Include="Model\Support\Counter.cs" />
     <Compile Include="Model\Support\Direction.cs" />
     <Compile Include="Model\Squares\EmptySquare.cs" />
     <Compile Include="Model\Squares\FoodSquare.cs" />
