@@ -11,7 +11,7 @@ namespace NaturalSelection.ViewModel
     public class ViewModelBio : ViewModelSquares
     {
         private readonly BioSquare model;
-        public ViewModelBio(BioSquare model)
+        public ViewModelBio(BioSquare model) : base (model)
         {
             this.model = model;
             this.model.ChangeHealth += (sender, square) => RaisePropertyChanged(nameof(Health));

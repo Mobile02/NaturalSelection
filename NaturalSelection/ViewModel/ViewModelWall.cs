@@ -9,10 +9,8 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelWall : ViewModelSquares
     {
-        private readonly WallSquare model;
-        public ViewModelWall(WallSquare model)
+        public ViewModelWall(WallSquare model) : base(model)
         {
-            this.model = model;
         }
     }
 }

@@ -9,10 +9,8 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelAcid : ViewModelSquares
     {
-        private readonly AcidSquare model;
-        public ViewModelAcid(AcidSquare model)
+        public ViewModelAcid(AcidSquare model) : base (model)
         {
-            this.model = model;
         }
     }
 }

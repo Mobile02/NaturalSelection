@@ -9,10 +9,8 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelFood : ViewModelSquares
     {
-        private readonly FoodSquare model;
-        public ViewModelFood(FoodSquare model)
+        public ViewModelFood(FoodSquare model) : base(model)
         {
-            this.model = model;
         }
     }
 }

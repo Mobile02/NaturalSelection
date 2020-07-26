@@ -9,10 +9,8 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelEmpty : ViewModelSquares
     {
-        private readonly EmptySquare model;
-        public ViewModelEmpty(EmptySquare model)
+        public ViewModelEmpty(EmptySquare model) : base (model)
         {
-            this.model = model;
         }
     }
 }

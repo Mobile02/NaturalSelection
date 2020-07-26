@@ -9,5 +9,10 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelSquares : ViewModelBase
     {
+        private readonly BaseSquare model;
+        public ViewModelSquares(BaseSquare model)
+        {
+            this.model = model;
+        }
     }
 }
