@@ -76,13 +76,13 @@
     <Compile Include="Model\Squares\WallSquare.cs" />
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelAcid.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="ViewModel\ViewModelBio.cs" />
-    <Compile Include="ViewModel\ViewModelEmpty.cs" />
-    <Compile Include="ViewModel\ViewModelFood.cs" />
-    <Compile Include="ViewModel\ViewModelSquares.cs" />
-    <Compile Include="ViewModel\ViewModelWall.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelAcid.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelBase.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelBio.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelEmpty.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelFood.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelSquares.cs" />
+    <Compile Include="ViewModel\VMSquares\ViewModelWall.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

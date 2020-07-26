@@ -45,8 +45,18 @@ namespace NaturalSelection.ViewModel
                 for (int x = 0; x < constants.WorldSizeX; x++)
                 {
                     WorldMap[y][x] = constructor.ConstructorViewModel(engine.WorldMap[y][x]);
+                    if(engine.WorldMap[y][x] is BioSquare)
+                    {
+                        engine.WorldMap[y][x].ChangeCoordinate -= On_ChangeCoordinate;
+                        engine.WorldMap[y][x].ChangeCoordinate += On_ChangeCoordinate;
+                    }
                 }
             }
+        }
+
+        private void On_ChangeCoordinate(object sender, System.Windows.Point e)
+        {
+            RefreshMap();
         }
 
         private void start()

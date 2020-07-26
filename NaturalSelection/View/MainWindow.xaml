@@ -14,40 +14,35 @@
     ScrollViewer.VerticalScrollBarVisibility="Disabled"
     SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
-    
-<!-- Попробовать переделать на триггеры-->
+
     <Window.Resources>
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
             <Grid
                 Width="15"
                 Height="15"
                 Margin="1"
-                Background="Gray">
-            </Grid>
+                Background="Gray" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelEmpty}">
             <Grid
                 Width="15"
                 Height="15"
                 Margin="1"
-                Background="WhiteSmoke">
-            </Grid>
+                Background="WhiteSmoke" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelAcid}">
             <Grid
                 Width="15"
                 Height="15"
                 Margin="1"
-                Background="Red">
-            </Grid>
+                Background="Red" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelFood}">
             <Grid
                 Width="15"
                 Height="15"
                 Margin="1"
-                Background="Green">
-            </Grid>
+                Background="Green" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelBio}">
             <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}" CommandParameter="{Binding Path=.}">

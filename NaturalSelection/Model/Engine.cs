@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NaturalSelection.Model
 {
     public class Engine
     {
         private Constants constants;
-
 
         public BaseSquare[][] WorldMap { get; set; }
 
@@ -35,8 +35,12 @@ namespace NaturalSelection.Model
                 {
                     if (WorldMap[y][x] is BioSquare)
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(10);
                         (WorldMap[y][x] as BioSquare).Health--;
+                        (WorldMap[y][x] as BioSquare).Coordinate = new Point(x + 1, y);
+                        (WorldMap[y][x] as BioSquare).Coordinate = new Point(x, y + 1);
+                        (WorldMap[y + 1][x + 1]) = WorldMap[y][x];
+                        WorldMap[y][x] = new EmptySquare(x, y);
                     }
                 }
             }
