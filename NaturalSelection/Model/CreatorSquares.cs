@@ -19,6 +19,20 @@ namespace NaturalSelection.Model
             random = new Random((int)timeOffset.Ticks);
         }
 
+        private int FindIndex(BaseSquare[] worldMap)
+        {
+            int index = 0;
+            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
+            {
+                if (worldMap[i] is EmptySquare)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
 
         private int[] BrainCenerator()
         {
@@ -32,96 +46,126 @@ namespace NaturalSelection.Model
             return (int[])brain.Clone();
         }
 
-        public void FillWorldMap(BaseSquare[][] worldMap)
+        public void FillField(BaseSquare[] worldMap)
         {
-            for (int y = 0; y < constants.WorldSizeY; y++)
+            int xx = 0;
+            int yy = 0;
+
+            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
-                worldMap[y] = new BaseSquare[constants.WorldSizeX];
+                worldMap[i] = new EmptySquare(xx, yy);
+                xx++;
 
-                for (int x = 0; x < constants.WorldSizeX; x++)
+                if (xx > constants.WorldSizeX)
                 {
-                    worldMap[y][x] = new EmptySquare(x, y);
-
-                    if (y == 0 || y == constants.WorldSizeY - 1)
-                        worldMap[y][x] = new WallSquare(x, y);
-
-                    if (x == 0 || x == constants.WorldSizeX - 1)
-                        worldMap[y][x] = new WallSquare(x, y);
+                    xx = 0;
+                    yy++;
                 }
+            }
+
+            for (int x = 0; x < constants.WorldSizeX; x += 2)
+            {
+                worldMap[x] = new WallSquare(x, 0);
+                worldMap[x + 1] = new WallSquare(x, constants.WorldSizeY);
+            }
+
+            for (int y = 1; y < constants.WorldSizeY - 1; y += 2)
+            {
+                worldMap[y] = new WallSquare(0, y);
+                worldMap[y + 1] = new WallSquare(constants.WorldSizeX, y);
             }
         }
 
-        public void AddWall(BaseSquare[][] worldMap, int count)
+        public void AddWall(BaseSquare[] worldMap, int count)
         {
+            int index = FindIndex(worldMap);
+
             while (count > 0)
             {
                 int y = random.Next(1, constants.WorldSizeY - 1);
                 int x = random.Next(1, constants.WorldSizeX - 1);
 
-                if (worldMap[y][x] is EmptySquare)
+                if (Array.IndexOf(worldMap, new WallSquare(x, y)) == -1)
                 {
-                    worldMap[y][x] = new EmptySquare(x, y);
+                    worldMap[index] = new WallSquare(x, y);
+                    index++;
                     count--;
                 }
             }
         }
 
-        public void AddBioSquare(BaseSquare[][] worldMap, int count)
+        public void AddBioSquare(BaseSquare[] worldMap, int count)
         {
+            int index = FindIndex(worldMap);
+
             while (count > 0)
             {
+                bool check = false;
                 int y = random.Next(1, constants.WorldSizeY - 1);
                 int x = random.Next(1, constants.WorldSizeX - 1);
 
-                if (worldMap[y][x] is EmptySquare)
+                for (int i = 0; i < index; i++)
                 {
-                    worldMap[y][x] = new BioSquare(x, y)
+                    if (worldMap[i].PointX == x && worldMap[i].PointY == y && !(worldMap[i] is EmptySquare))
+                        check = true;
+                }
+
+                if (!check)
+                {
+                    worldMap[index] = new BioSquare(x, y)
                     {
                         Brain = BrainCenerator(),
                         Pointer = 0,
                         Health = constants.HealthSquare,
                         Direction = (Direction)random.Next(8)
                     };
-                    Counter.CountLiveBio++;
+
+                    index++;
                     count--;
                 }
             }
         }
 
-        public void AddAcid(BaseSquare[][] worldMap, int count)
+        public void AddAcid(BaseSquare[] worldMap, int count)
         {
             if (Counter.CountAcid > new Constants().CountAcid)
                 return;
 
+            int index = FindIndex(worldMap);
+
             while (count > 0)
             {
                 int y = random.Next(1, constants.WorldSizeY - 1);
                 int x = random.Next(1, constants.WorldSizeX - 1);
 
-                if (worldMap[y][x] is EmptySquare)
+                if (Array.IndexOf(worldMap, new AcidSquare(x, y)) == -1)
                 {
-                    worldMap[y][x] = new AcidSquare(x, y);
-                    Counter.CountAcid++;
+                    worldMap[index] = new AcidSquare(x, y);
+                    index++;
                     count--;
+                    Counter.CountAcid++;
                 }
             }
         }
 
-        public void AddFood(BaseSquare[][] worldMap, int count)
+        public void AddFood(BaseSquare[] worldMap, int count)
         {
             if (Counter.CountFood > new Constants().CountFood)
                 return;
+
+            int index = FindIndex(worldMap);
 
             while (count > 0)
             {
                 int y = random.Next(1, constants.WorldSizeY - 1);
                 int x = random.Next(1, constants.WorldSizeX - 1);
 
-                if (worldMap[y][x] is EmptySquare)
+                if (Array.IndexOf(worldMap, new FoodSquare(x, y)) == -1)
                 {
-                    worldMap[y][x] = new FoodSquare(x, y);
-                    Counter.CountFood++;
+                    worldMap[index] = new FoodSquare(x, y);
+                    index++;
                     count--;
+                    Counter.CountFood++;
                 }
             }
         }

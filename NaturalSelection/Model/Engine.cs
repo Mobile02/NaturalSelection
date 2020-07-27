@@ -13,15 +13,15 @@ namespace NaturalSelection.Model
     {
         private Constants constants;
 
-        public BaseSquare[][] WorldMap { get; set; }
+        public BaseSquare[] WorldMap { get; set; }
 
         public Engine()
         {
 
             constants = new Constants();
-            WorldMap = new BaseSquare[constants.WorldSizeY][];
+            WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
-            new CreatorSquares().FillWorldMap(WorldMap);
+            new CreatorSquares().FillField(WorldMap);
             new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio);
             new CreatorSquares().AddWall(WorldMap, 20);
             new CreatorSquares().AddFood(WorldMap, constants.CountFood);

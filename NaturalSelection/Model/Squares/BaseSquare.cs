@@ -9,19 +9,32 @@ namespace NaturalSelection.Model
 {
     public abstract class BaseSquare
     {
-        private Point coordinate;
+        private int pointX;
+        private int pointY;
 
-        private void RaiseCoordinate(Point value) => ChangeCoordinate?.Invoke(this, value);
+        private void RaisePointX(int value) => ChangePointX?.Invoke(this, value);
+        private void RaisePointY(int value) => ChangePointY?.Invoke(this, value);
 
-        public static event EventHandler<Point> ChangeCoordinate;
+        public event EventHandler<int> ChangePointX;
+        public event EventHandler<int> ChangePointY;
 
-        public Point Coordinate
+        public int PointX
         {
-            get { return coordinate; }
+            get { return pointX; }
             set
             {
-                coordinate = value;
-                RaiseCoordinate(Coordinate);
+                pointX = value;
+                RaisePointX(PointX);
+            }
+        }
+
+        public int PointY
+        {
+            get { return pointY; }
+            set
+            {
+                pointY = value;
+                RaisePointY(PointY);
             }
         }
 
@@ -29,7 +42,8 @@ namespace NaturalSelection.Model
 
         public BaseSquare (int x, int y)
         {
-            Coordinate = new Point(x, y);
+            PointX = x;
+            PointY = y;
         }
     }
 }

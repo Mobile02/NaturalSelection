@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace NaturalSelection.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ViewModelSquares[][] worldMap;
+        private ViewModelSquares[] worldMap;
         private Constants constants = new Constants();
         private Engine engine;
 
-        public ViewModelSquares[][] WorldMap
+        public ViewModelSquares[] WorldMap
         {
             get { return worldMap; }
             set
@@ -24,29 +26,30 @@ namespace NaturalSelection.ViewModel
             }
         }
 
+        public int CountRows { get; set; }
+        public int CountColumns { get; set; }
+
 
         public MainWindowViewModel()
         {
+            CountRows = constants.WorldSizeY;
+            CountColumns = constants.WorldSizeX;
+
+            GridProperties gridProperties = new GridProperties();
+
             engine = new Engine();
 
             RefreshMap();
-
-            BaseSquare.ChangeCoordinate += On_ChangeCoordinate;
         }
 
         private void RefreshMap()
         {
             ConstructorSquareViewModel constructor = new ConstructorSquareViewModel();
-            WorldMap = new ViewModelSquares[constants.WorldSizeY][];
 
-            for (int y = 0; y < constants.WorldSizeY; y++)
-            {
-                WorldMap[y] = new ViewModelSquares[constants.WorldSizeX];
-                for (int x = 0; x < constants.WorldSizeX; x++)
-                {
-                    WorldMap[y][x] = constructor.ConstructorViewModel(engine.WorldMap[y][x]);
-                }
-            }
+            WorldMap = new ViewModelSquares[constants.WorldSizeX * constants.WorldSizeY];
+
+            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
+                WorldMap[i] = constructor.ConstructorViewModel(engine.WorldMap[i]);
         }
 
         private void On_ChangeCoordinate(object sender, System.Windows.Point e)

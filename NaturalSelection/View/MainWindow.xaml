@@ -18,6 +18,8 @@
     <Window.Resources>
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
             <Grid
+                Grid.Row="{Binding PointY}"
+                Grid.Column="{Binding PointX}"
                 Width="15"
                 Height="15"
                 Margin="1"
@@ -25,6 +27,8 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelEmpty}">
             <Grid
+                Grid.Row="{Binding PointY}"
+                Grid.Column="{Binding PointX}"
                 Width="15"
                 Height="15"
                 Margin="1"
@@ -32,6 +36,8 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelAcid}">
             <Grid
+                Grid.Row="{Binding PointY}"
+                Grid.Column="{Binding PointX}"
                 Width="15"
                 Height="15"
                 Margin="1"
@@ -39,6 +45,8 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelFood}">
             <Grid
+                Grid.Row="{Binding PointY}"
+                Grid.Column="{Binding PointX}"
                 Width="15"
                 Height="15"
                 Margin="1"
@@ -49,6 +57,8 @@
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid
+                            Grid.Row="{Binding PointY}"
+                            Grid.Column="{Binding PointX}"
                             Width="15"
                             Height="15"
                             Margin="1"
@@ -67,7 +77,16 @@
         </DataTemplate>
     </Window.Resources>
 
+
     <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Grid user:GridProperties.Columns="{Binding CountColumns}" user:GridProperties.Rows="{Binding CountRows}"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+
+    <!--<ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <ItemsControl ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
@@ -79,6 +98,6 @@
                 </ItemsControl>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    </ItemsControl>-->
 
 </Window>
