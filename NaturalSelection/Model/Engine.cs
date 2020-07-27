@@ -17,6 +17,7 @@ namespace NaturalSelection.Model
 
         public Engine()
         {
+
             constants = new Constants();
             WorldMap = new BaseSquare[constants.WorldSizeY][];
 
@@ -35,7 +36,7 @@ namespace NaturalSelection.Model
             {
                 for (int i = 0; i < int.MaxValue; i++)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(10);
 
                     new BehaviorSquare(WorldMap);
 

@@ -90,6 +90,9 @@ namespace NaturalSelection.Model
 
         public void AddAcid(BaseSquare[][] worldMap, int count)
         {
+            if (Counter.CountAcid > new Constants().CountAcid)
+                return;
+
             while (count > 0)
             {
                 int y = random.Next(1, constants.WorldSizeY - 1);
@@ -106,6 +109,9 @@ namespace NaturalSelection.Model
 
         public void AddFood(BaseSquare[][] worldMap, int count)
         {
+            if (Counter.CountFood > new Constants().CountFood)
+                return;
+
             while (count > 0)
             {
                 int y = random.Next(1, constants.WorldSizeY - 1);

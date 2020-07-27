@@ -12,11 +12,8 @@ namespace NaturalSelection.ViewModel
     {
         private readonly BaseSquare model;
 
-        public readonly Point Coordinate;
-
         public ViewModelSquares(BaseSquare model)
         {
-            Coordinate = model.Coordinate;
             this.model = model;
         }
     }

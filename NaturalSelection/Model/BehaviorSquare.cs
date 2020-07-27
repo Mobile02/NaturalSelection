@@ -171,6 +171,8 @@ namespace NaturalSelection.Model
             {
                 StepBio((int)newPoint.Y, (int)newPoint.X);
 
+                currentBio.Health += constants.Energy;
+
                 Counter.CountFood--;
 
                 new CreatorSquares().AddFood(worldMap, 1);

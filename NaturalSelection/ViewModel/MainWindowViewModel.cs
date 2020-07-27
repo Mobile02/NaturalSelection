@@ -14,8 +14,8 @@ namespace NaturalSelection.ViewModel
         private Constants constants = new Constants();
         private Engine engine;
 
-        public ViewModelSquares[][] WorldMap 
-        { 
+        public ViewModelSquares[][] WorldMap
+        {
             get { return worldMap; }
             set
             {
@@ -30,6 +30,8 @@ namespace NaturalSelection.ViewModel
             engine = new Engine();
 
             RefreshMap();
+
+            BaseSquare.ChangeCoordinate += On_ChangeCoordinate;
         }
 
         private void RefreshMap()
@@ -43,11 +45,6 @@ namespace NaturalSelection.ViewModel
                 for (int x = 0; x < constants.WorldSizeX; x++)
                 {
                     WorldMap[y][x] = constructor.ConstructorViewModel(engine.WorldMap[y][x]);
-                    if(engine.WorldMap[y][x] is BioSquare)
-                    {
-                        engine.WorldMap[y][x].ChangeCoordinate -= On_ChangeCoordinate;
-                        engine.WorldMap[y][x].ChangeCoordinate += On_ChangeCoordinate;
-                    }
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace NaturalSelection.Model
 
         private void RaiseCoordinate(Point value) => ChangeCoordinate?.Invoke(this, value);
 
-        public event EventHandler<Point> ChangeCoordinate;
+        public static event EventHandler<Point> ChangeCoordinate;
 
         public Point Coordinate
         {
@@ -24,6 +24,7 @@ namespace NaturalSelection.Model
                 RaiseCoordinate(Coordinate);
             }
         }
+
         public TypeSquare TypeSquare { get; protected set; }
 
         public BaseSquare (int x, int y)
