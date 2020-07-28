@@ -27,7 +27,7 @@ namespace NaturalSelection.Model
             new CreatorSquares().AddFood(WorldMap, constants.CountFood);
             new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
 
-            new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
+            //new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
         }
 
         private void MainAsync()

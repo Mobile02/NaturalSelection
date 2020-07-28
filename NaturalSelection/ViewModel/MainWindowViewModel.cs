@@ -15,6 +15,8 @@ namespace NaturalSelection.ViewModel
         private ViewModelSquares[] worldMap;
         private Constants constants = new Constants();
         private Engine engine;
+        private int countRows;
+        private int countColumns;
 
         public ViewModelSquares[] WorldMap
         {
@@ -26,8 +28,24 @@ namespace NaturalSelection.ViewModel
             }
         }
 
-        public int CountRows { get; set; }
-        public int CountColumns { get; set; }
+        public int CountRows
+        {
+            get { return countRows; }
+            set
+            {
+                countRows = value;
+                RaisePropertyChanged("CountRows");
+            }
+        }
+        public int CountColumns 
+        {
+            get { return countColumns; }
+            set
+            {
+                countColumns = value;
+                RaisePropertyChanged("CountColumns");
+            }
+        }
 
 
         public MainWindowViewModel()
@@ -35,7 +53,6 @@ namespace NaturalSelection.ViewModel
             CountRows = constants.WorldSizeY;
             CountColumns = constants.WorldSizeX;
 
-            GridProperties gridProperties = new GridProperties();
 
             engine = new Engine();
 

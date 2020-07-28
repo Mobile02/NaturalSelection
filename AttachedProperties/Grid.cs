@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace NaturalSelection.ViewModel
+namespace AttachedProperties
 {
-    public class GridProperties : DependencyObject
+    public static class Grid
     {
 
         public static int GetRows(System.Windows.Controls.Grid grid)
@@ -23,7 +23,7 @@ namespace NaturalSelection.ViewModel
 
         
         public static readonly DependencyProperty RowsProperty =
-            DependencyProperty.RegisterAttached("Rows", typeof(int), typeof(Grid), new PropertyMetadata(0, ChangeRows));
+            DependencyProperty.RegisterAttached("Rows", typeof(int), typeof(System.Windows.Controls.Grid), new PropertyMetadata(0, ChangeRows));
 
         
         private static void ChangeRows(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -58,7 +58,7 @@ namespace NaturalSelection.ViewModel
 
         
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.RegisterAttached("Columns", typeof(int), typeof(Grid), new PropertyMetadata(0, ChangeColumns));
+            DependencyProperty.RegisterAttached("Columns", typeof(int), typeof(System.Windows.Controls.Grid), new PropertyMetadata(0, ChangeColumns));
 
         
         private static void ChangeColumns(DependencyObject d, DependencyPropertyChangedEventArgs e)

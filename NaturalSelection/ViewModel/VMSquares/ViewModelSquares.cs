@@ -20,6 +20,8 @@ namespace NaturalSelection.ViewModel
             this.model = model;
             this.model.ChangePointX += (sender, square) => RaisePropertyChanged("PointX");
             this.model.ChangePointY += (sender, square) => RaisePropertyChanged("PointY");
+            PointX = model.PointX;
+            PointY = model.PointY;
         }
     }
 }
