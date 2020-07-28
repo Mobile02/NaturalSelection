@@ -80,7 +80,7 @@
     <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <Grid ap:Grid.Columns="64" ap:Grid.Rows="48" />
+                <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
     </ItemsControl>
