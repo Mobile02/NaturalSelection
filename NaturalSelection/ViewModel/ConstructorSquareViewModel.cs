@@ -22,8 +22,7 @@ namespace NaturalSelection.ViewModel
                 return new ViewModelFood(model as FoodSquare);
             if (model is WallSquare)
                 return new ViewModelWall(model as WallSquare);
-
-            return new ViewModelSquares(model);
+            return null;
         }
     }
 }

@@ -8,20 +8,21 @@ using System.Windows;
 
 namespace NaturalSelection.ViewModel
 {
-    public class ViewModelSquares : ViewModelBase
+    public abstract class ViewModelSquares : ViewModelBase
     {
         private readonly BaseSquare model;
 
-        public int PointX { get; set; }
-        public int PointY { get; set; }
+        public abstract int PointX { get; set; }
+        public abstract int PointY { get; set; }
 
         public ViewModelSquares(BaseSquare model)
         {
-            this.model = model;
-            this.model.ChangePointX += (sender, square) => RaisePropertyChanged("PointX");
-            this.model.ChangePointY += (sender, square) => RaisePropertyChanged("PointY");
-            PointX = model.PointX;
-            PointY = model.PointY;
+            if (model != null)
+            {
+                this.model = model;
+                PointX = model.PointX;
+                PointY = model.PointY;
+            }
         }
     }
 }

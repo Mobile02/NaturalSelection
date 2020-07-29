@@ -24,7 +24,7 @@ namespace NaturalSelection.Model
             int index = 0;
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
-                if (worldMap[i] is EmptySquare)
+                if (worldMap[i] is null)
                 {
                     index = i;
                     break;
@@ -48,31 +48,20 @@ namespace NaturalSelection.Model
 
         public void FillField(BaseSquare[] worldMap)
         {
-            int xx = 0;
-            int yy = 0;
+            int y = 0, x = 0, index = 0;
 
-            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
+            for (int i = 0; i < constants.WorldSizeX; i++)
             {
-                worldMap[i] = new EmptySquare(xx, yy);
-                xx++;
-
-                if (xx > constants.WorldSizeX)
-                {
-                    xx = 0;
-                    yy++;
-                }
+                worldMap[index++] = new WallSquare(x, 0);
+                worldMap[index++] = new WallSquare(x++, constants.WorldSizeY);
             }
 
-            for (int x = 0; x < constants.WorldSizeX; x += 2)
-            {
-                worldMap[x] = new WallSquare(x, 0);
-                worldMap[x + 1] = new WallSquare(x, constants.WorldSizeY);
-            }
+            int maxIndex = constants.WorldSizeY + index;
 
-            for (int y = 1; y < constants.WorldSizeY - 1; y += 2)
+            for (int i = index; i < maxIndex; i++)
             {
-                worldMap[y] = new WallSquare(0, y);
-                worldMap[y + 1] = new WallSquare(constants.WorldSizeX, y);
+                worldMap[index++] = new WallSquare(0, y);
+                worldMap[index++] = new WallSquare(constants.WorldSizeX, y++);
             }
         }
 
@@ -106,7 +95,7 @@ namespace NaturalSelection.Model
 
                 for (int i = 0; i < index; i++)
                 {
-                    if (worldMap[i].PointX == x && worldMap[i].PointY == y && !(worldMap[i] is EmptySquare))
+                    if (worldMap[i].PointX == x && worldMap[i].PointY == y && !(worldMap[i] is null))
                         check = true;
                 }
 
@@ -120,6 +109,7 @@ namespace NaturalSelection.Model
                         Direction = (Direction)random.Next(8)
                     };
 
+                    Counter.CountLiveBio++;
                     index++;
                     count--;
                 }

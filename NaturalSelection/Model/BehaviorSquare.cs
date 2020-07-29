@@ -37,32 +37,6 @@ namespace NaturalSelection.Model
 
         private void StartAction()
         {
-            //BioSquare[] tmpArrayBio = new BioSquare[Counter.CountLiveBio];
-            //int count = 0;
-
-            //for (int y = 1; y < constants.WorldSizeY - 1; y++)
-            //{
-            //    for (int x = 0; x < constants.WorldSizeX - 1; x++)
-            //    {
-            //        if (worldMap[y][x] is BioSquare)
-            //        {
-            //            tmpArrayBio[count] = worldMap[y][x] as BioSquare;
-
-            //            count++;
-            //        }
-            //    }
-            //}
-
-            //for (int i = 0; i < count; i++)
-            //{
-            //    currentBio = tmpArrayBio[i];
-
-            //    ActionSquare();
-
-            //    if (minCountLive)
-            //        return;
-            //}
-
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
                 if (worldMap[i] is BioSquare)
@@ -165,7 +139,7 @@ namespace NaturalSelection.Model
             newPoint.X = x;
             newPoint.Y = y;
 
-            pointerOffset[currentBio.TypeSquare]();
+            pointerOffset[worldMap[SearchIndex(x, y)].TypeSquare]();
 
             if (currentBio.Pointer >= constants.SizeBrain)
                 currentBio.Pointer -= constants.SizeBrain;
@@ -192,7 +166,7 @@ namespace NaturalSelection.Model
                 new CreatorSquares().AddFood(worldMap, 1);
             }
 
-            if (worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is EmptySquare)
+            if (worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is null)
             {
                 StepBio((int)newPoint.Y, (int)newPoint.X);
             }
@@ -230,7 +204,7 @@ namespace NaturalSelection.Model
             Point newPoint = new Point();
             newPoint = Check(currentBio.Brain[currentBio.Pointer] - 16);
 
-            if (worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is EmptySquare || worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is WallSquare)
+            if (worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is null || worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is WallSquare)
                 return;
 
             if (worldMap[SearchIndex((int)newPoint.X, (int)newPoint.Y)] is FoodSquare)
@@ -257,31 +231,23 @@ namespace NaturalSelection.Model
 
         private void DeleteBio()
         {
-            worldMap[globalIndex] = new EmptySquare(currentBio.PointX, currentBio.PointY);
+            worldMap[globalIndex] = null;
             Counter.CountLiveBio--;
         }
 
         private void StepBio(int pointX, int pointY)
         {
-            //worldMap[SearchIndex(pointX, pointY)] = currentBio.Clone() as BioSquare;
             worldMap[globalIndex].PointX = pointX;
             worldMap[globalIndex].PointY = pointY;
-
-            //worldMap[pointY][pointX] = currentBio.Clone() as BioSquare;
-            //worldMap[pointY][pointX].PointX = pointX;
-            //worldMap[pointY][pointX].PointY = pointY;
-
-            //DeleteBio();
-
-            //currentBio = worldMap[pointY][pointX] as BioSquare;
         }
 
         private int SearchIndex(int x, int y)
         {
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
-                if (worldMap[i].PointX == x && worldMap[i].PointY == y)
-                    return i;
+                if (worldMap[i] != null)
+                    if (worldMap[i].PointX == x && worldMap[i].PointY == y)
+                        return i;
             }
 
             return 0;

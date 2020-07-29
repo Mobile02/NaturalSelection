@@ -66,7 +66,10 @@ namespace NaturalSelection.ViewModel
             WorldMap = new ViewModelSquares[constants.WorldSizeX * constants.WorldSizeY];
 
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
-                WorldMap[i] = constructor.ConstructorViewModel(engine.WorldMap[i]);
+            {
+                if (engine.WorldMap[i] != null)
+                    WorldMap[i] = constructor.ConstructorViewModel(engine.WorldMap[i]);
+            }
         }
 
         private void On_ChangeCoordinate(object sender, System.Windows.Point e)
