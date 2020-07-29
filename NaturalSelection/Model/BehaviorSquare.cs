@@ -18,18 +18,21 @@ namespace NaturalSelection.Model
         private BioSquare currentBio;
         private int currentIndex;
         private int indexForAction;
+        private UpdateInfo updateInfo;
+        private void RaiseUpdate(UpdateInfo value) => Update?.Invoke(this, value);
 
+        public static event EventHandler<UpdateInfo> Update;
 
         public BehaviorSquare(BaseSquare[] worldMap)
         {
             this.worldMap = worldMap;
+            updateInfo = new UpdateInfo();
 
             pointerOffset = new Dictionary<TypeSquare, Action>
             {
                 { TypeSquare.ACID, () => currentBio.Pointer++},
                 { TypeSquare.FOOD, () => currentBio.Pointer += 2 },
                 { TypeSquare.BIO, () => currentBio.Pointer += 3 },
-                { TypeSquare.EMPTY, () => currentBio.Pointer += 4 },
                 { TypeSquare.WALL, () => currentBio.Pointer += 5 }
             };
 
@@ -42,6 +45,7 @@ namespace NaturalSelection.Model
             {
                 if (worldMap[i] is BioSquare)
                 {
+                    currentBio = null;
                     currentBio = worldMap[i] as BioSquare;
                     currentIndex = i;
 
@@ -85,6 +89,10 @@ namespace NaturalSelection.Model
             {
                 DeleteBio();
 
+                updateInfo.NewIndex = indexForAction;
+                updateInfo.CurrentIndex = currentIndex;
+                RaiseUpdate(updateInfo);
+
                 if (Counter.CountLiveBio == (constants.CountBio / 8))
                     minCountLive = true;
             }
@@ -93,14 +101,13 @@ namespace NaturalSelection.Model
         private Point Check(int direction)
         {
             Point newPoint = new Point();
-            Direction oldDirection = new Direction();
-            oldDirection = currentBio.Direction;
+            Direction oldDirection = currentBio.Direction;
             int x, y;
 
             x = currentBio.PointX;
             y = currentBio.PointY;
 
-            currentBio.Direction = currentBio.Direction + direction;
+            currentBio.Direction += direction;
 
             if ((int)currentBio.Direction > 7)
                 currentBio.Direction -= 8;
@@ -137,8 +144,8 @@ namespace NaturalSelection.Model
                     break;
             }
 
-            newPoint.X = currentBio.PointX - x;
-            newPoint.Y = currentBio.PointY - y;
+            newPoint.X = x;
+            newPoint.Y = y;
 
             indexForAction = SearchIndex(x, y);
 
@@ -163,6 +170,8 @@ namespace NaturalSelection.Model
 
             if (worldMap[indexForAction] is FoodSquare)
             {
+                worldMap[indexForAction] = null;
+
                 StepBio((int)newPoint.X, (int)newPoint.Y);
 
                 currentBio.Health += constants.Energy;
@@ -170,11 +179,15 @@ namespace NaturalSelection.Model
                 Counter.CountFood--;
 
                 new CreatorSquares().AddFood(worldMap, 1);
+
+                updateInfo.NewIndex = indexForAction;
+                updateInfo.CurrentIndex = currentIndex;
+                RaiseUpdate(updateInfo);
             }
 
             if (worldMap[indexForAction] is null)
             {
-                StepBio((int)newPoint.Y, (int)newPoint.X);
+                StepBio((int)newPoint.X, (int)newPoint.Y);
             }
 
             if (worldMap[indexForAction] is AcidSquare)
@@ -183,10 +196,12 @@ namespace NaturalSelection.Model
 
                 worldMap[currentIndex] = new AcidSquare(currentBio.PointX, currentBio.PointY);
 
-                Counter.CountAcid++;
-
                 if (Counter.CountLiveBio == (constants.CountBio / 8))
                     minCountLive = true;
+
+                updateInfo.NewIndex = indexForAction;
+                updateInfo.CurrentIndex = currentIndex;
+                RaiseUpdate(updateInfo);
             }
         }
 
@@ -215,13 +230,17 @@ namespace NaturalSelection.Model
 
             if (worldMap[indexForAction] is FoodSquare)
             {
-                worldMap[indexForAction] = new EmptySquare((int)newPoint.X, (int)newPoint.Y);
+                worldMap[indexForAction] = null;
 
                 currentBio.Health += constants.Energy;
 
                 Counter.CountFood--;
 
                 new CreatorSquares().AddFood(worldMap, 1);
+
+                updateInfo.NewIndex = indexForAction;
+                updateInfo.CurrentIndex = currentIndex;
+                RaiseUpdate(updateInfo);
             }
 
             if (worldMap[indexForAction] is AcidSquare)
@@ -232,6 +251,10 @@ namespace NaturalSelection.Model
                 Counter.CountFood++;
 
                 new CreatorSquares().AddAcid(worldMap, 1);
+
+                updateInfo.NewIndex = indexForAction;
+                updateInfo.CurrentIndex = currentIndex;
+                RaiseUpdate(updateInfo);
             }
         }
 
@@ -243,13 +266,13 @@ namespace NaturalSelection.Model
 
         private void StepBio(int pointX, int pointY)
         {
-            worldMap[currentIndex].PointX += pointX;
-            worldMap[currentIndex].PointY += pointY;
+            worldMap[currentIndex].PointX = pointX;
+            worldMap[currentIndex].PointY = pointY;
         }
 
         private int SearchIndex(int x, int y)
         {
-            for (int i = constants.WorldSizeX * constants.WorldSizeY - 1; i > 0; i--)
+            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY - 1; i++)
             {
                 if (worldMap[i] != null)
                 {

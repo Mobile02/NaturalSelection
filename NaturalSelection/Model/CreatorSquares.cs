@@ -53,7 +53,7 @@ namespace NaturalSelection.Model
             for (int i = 0; i < constants.WorldSizeX; i++)
             {
                 worldMap[index++] = new WallSquare(x, 0);
-                worldMap[index++] = new WallSquare(x++, constants.WorldSizeY);
+                worldMap[index++] = new WallSquare(x++, constants.WorldSizeY - 1);
             }
 
             int maxIndex = constants.WorldSizeY + index;
@@ -61,7 +61,7 @@ namespace NaturalSelection.Model
             for (int i = index; i < maxIndex; i++)
             {
                 worldMap[index++] = new WallSquare(0, y);
-                worldMap[index++] = new WallSquare(constants.WorldSizeX, y++);
+                worldMap[index++] = new WallSquare(constants.WorldSizeX - 1, y++);
             }
         }
 
@@ -77,7 +77,8 @@ namespace NaturalSelection.Model
                 if (Array.IndexOf(worldMap, new WallSquare(x, y)) == -1)
                 {
                     worldMap[index] = new WallSquare(x, y);
-                    index++;
+                    if (worldMap[++index] != null)
+                        index = FindIndex(worldMap);
                     count--;
                 }
             }
@@ -93,9 +94,9 @@ namespace NaturalSelection.Model
                 int y = random.Next(1, constants.WorldSizeY - 1);
                 int x = random.Next(1, constants.WorldSizeX - 1);
 
-                for (int i = 0; i < index; i++)
+                for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
                 {
-                    if (worldMap[i].PointX == x && worldMap[i].PointY == y && !(worldMap[i] is null))
+                    if (!(worldMap[i] is null) && worldMap[i].PointX == x && worldMap[i].PointY == y)
                         check = true;
                 }
 
@@ -110,8 +111,10 @@ namespace NaturalSelection.Model
                     };
 
                     Counter.CountLiveBio++;
-                    index++;
                     count--;
+
+                    if (worldMap[++index] != null)
+                        index = FindIndex(worldMap);
                 }
             }
         }
@@ -131,7 +134,8 @@ namespace NaturalSelection.Model
                 if (Array.IndexOf(worldMap, new AcidSquare(x, y)) == -1)
                 {
                     worldMap[index] = new AcidSquare(x, y);
-                    index++;
+                    if (worldMap[++index] != null)
+                        index = FindIndex(worldMap);
                     count--;
                     Counter.CountAcid++;
                 }
@@ -153,7 +157,8 @@ namespace NaturalSelection.Model
                 if (Array.IndexOf(worldMap, new FoodSquare(x, y)) == -1)
                 {
                     worldMap[index] = new FoodSquare(x, y);
-                    index++;
+                    if (worldMap[++index] != null)
+                        index = FindIndex(worldMap);
                     count--;
                     Counter.CountFood++;
                 }

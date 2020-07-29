@@ -76,6 +76,7 @@
     <Compile Include="Model\Squares\FoodSquare.cs" />
     <Compile Include="Model\Support\TypeSquare.cs" />
     <Compile Include="Model\Squares\WallSquare.cs" />
+    <Compile Include="Model\Support\UpdateInfo.cs" />
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />
     <Compile Include="ViewModel\Grid.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
