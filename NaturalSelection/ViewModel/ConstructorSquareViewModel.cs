@@ -16,7 +16,7 @@ namespace NaturalSelection.ViewModel
                 return new ViewModelAcid(model as AcidSquare);
             if (model is BioSquare)
                 return new ViewModelBio(model as BioSquare);
-            if (model is EmptySquare)
+            if (model is null)
                 return new ViewModelEmpty(model as EmptySquare);
             if (model is FoodSquare)
                 return new ViewModelFood(model as FoodSquare);

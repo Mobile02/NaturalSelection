@@ -9,7 +9,6 @@ namespace NaturalSelection.ViewModel
 {
     public class ViewModelEmpty : ViewModelSquares
     {
-        private readonly EmptySquare model;
         private int pointX;
         private int pointY;
 
@@ -34,9 +33,6 @@ namespace NaturalSelection.ViewModel
 
         public ViewModelEmpty(EmptySquare model) : base (model)
         {
-            this.model = model;
-            this.model.ChangePointX += (sender, square) => PointX = square;
-            this.model.ChangePointY += (sender, square) => PointY = square;
         }
     }
 }

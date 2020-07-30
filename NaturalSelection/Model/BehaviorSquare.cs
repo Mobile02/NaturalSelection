@@ -43,7 +43,7 @@ namespace NaturalSelection.Model
                     currentBio = null;
                     currentBio = worldMap[i] as BioSquare;
 
-                    if (currentBio.PointX < 0)
+                    if (currentBio.PointX < 0 && currentBio.PointY < 0)
                         continue;
 
                     currentIndex = worldMap[i].Index;

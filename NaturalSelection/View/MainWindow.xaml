@@ -17,32 +17,16 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
-            <Grid
-                Width="15"
-                Height="15"
-                Margin="1"
-                Background="Gray" />
+            <Grid Background="Gray" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelEmpty}">
-            <Grid
-                Width="15"
-                Height="15"
-                Margin="1"
-                Background="WhiteSmoke" />
+            <Grid Background="Gray" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelAcid}">
-            <Grid
-                Width="15"
-                Height="15"
-                Margin="1"
-                Background="Red" />
+            <Grid Background="Red" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelFood}">
-            <Grid
-                Width="15"
-                Height="15"
-                Margin="1"
-                Background="Green" />
+            <Grid Background="Green" />
         </DataTemplate>
         <DataTemplate DataType="{x:Type user:ViewModelBio}">
             <Button
@@ -52,11 +36,7 @@
                 CommandParameter="{Binding Path=.}">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid
-                            Width="15"
-                            Height="15"
-                            Margin="1"
-                            Background="Blue">
+                        <Grid Background="Blue">
                             <TextBlock
                                 Margin="2"
                                 HorizontalAlignment="Center"
@@ -76,8 +56,12 @@
             <Style>
                 <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged}" />
                 <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged}" />
+                <Setter Property="Grid.Width" Value="15" />
+                <Setter Property="Grid.Height" Value="15" />
+                <Setter Property="Grid.Margin" Value="1" />
             </Style>
         </ItemsControl.ItemContainerStyle>
+
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}" />
