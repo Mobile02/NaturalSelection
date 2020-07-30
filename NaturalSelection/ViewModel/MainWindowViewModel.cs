@@ -14,8 +14,8 @@ namespace NaturalSelection.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         private ViewModelSquares[] worldMap;
-        private Constants constants = new Constants();
-        private Engine engine;
+        private readonly Constants constants = new Constants();
+        private readonly Engine engine;
         private int countRows;
         private int countColumns;
         ConstructorSquareViewModel constructor = new ConstructorSquareViewModel();
@@ -59,17 +59,7 @@ namespace NaturalSelection.ViewModel
             engine = new Engine();
 
             RefreshMap();
-            
-            BehaviorSquare.Update += BehaviorSquare_Update;
         }
-
-        private void BehaviorSquare_Update(object sender, UpdateInfo e)
-        {
-            RefreshMap();
-            //WorldMap[e.CurrentIndex] = constructor.ConstructorViewModel(engine.WorldMap[e.CurrentIndex]);
-            //WorldMap[e.NewIndex] = constructor.ConstructorViewModel(engine.WorldMap[e.NewIndex]);
-        }
-
         private void RefreshMap()
         {
             WorldMap = new ViewModelSquares[constants.WorldSizeX * constants.WorldSizeY];

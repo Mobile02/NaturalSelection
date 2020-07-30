@@ -21,11 +21,7 @@ namespace NaturalSelection.Model
             constants = new Constants();
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
-            new CreatorSquares().FillField(WorldMap);
-            new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio);
-            new CreatorSquares().AddWall(WorldMap, 20);
-            new CreatorSquares().AddFood(WorldMap, constants.CountFood);
-            new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
+            new CreatorSquares().InitWorldMap(WorldMap);
 
             new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
         }
@@ -45,7 +41,7 @@ namespace NaturalSelection.Model
                         //new CreatorSquares().RefreshSquare(WorldMap);
                         //new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
                         //new CreatorSquares().AddFood(WorldMap, constants.CountFood);
-                        new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio - Counter.CountLiveBio);
+                        //new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio - Counter.CountLiveBio);
                         //Counter.CountLiveBio = constants.CountBio;
 
                         i = int.MaxValue - 1;

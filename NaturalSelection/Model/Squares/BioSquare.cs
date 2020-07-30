@@ -54,7 +54,7 @@ namespace NaturalSelection.Model
         public int[] Brain { get; set; }
         public int Pointer { get; set; }
 
-        public BioSquare(int x, int y) : base(x, y)
+        public BioSquare(int x, int y, int index) : base(x, y, index)
         {
             TypeSquare = TypeSquare.BIO;
             pointX = x;

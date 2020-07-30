@@ -36,7 +36,7 @@ namespace NaturalSelection.Model
                 RaisePointY(PointY);
             }
         }
-        public EmptySquare(int x, int y) : base(x, y)
+        public EmptySquare(int x, int y, int index) : base(x, y, index)
         {
             TypeSquare = TypeSquare.EMPTY;
         }
