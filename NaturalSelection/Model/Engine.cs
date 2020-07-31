@@ -12,8 +12,13 @@ namespace NaturalSelection.Model
     public class Engine
     {
         private Constants constants;
+        private int nextGen;
+        private void RaiseNextGen(int value) => ChangeNextGen?.Invoke(this, value);
 
+
+        public event EventHandler<int> ChangeNextGen;
         public BaseSquare[] WorldMap { get; set; }
+        public int NextGen { get; set; }
 
         public Engine()
         {
@@ -32,18 +37,16 @@ namespace NaturalSelection.Model
             {
                 for (int i = 0; i < int.MaxValue; i++)
                 {
-                    Thread.Sleep(200);
+                    //Thread.Sleep(5);
 
                     new BehaviorSquare(WorldMap);
 
-                    if (Counter.CountLiveBio <= (constants.CountBio / 8))
+                    if (Counter.CountLiveBio == constants.CountBio / 8)
                     {
-                        //new CreatorSquares().RefreshSquare(WorldMap);
-                        //new CreatorSquares().AddAcid(WorldMap, constants.CountAcid);
-                        //new CreatorSquares().AddFood(WorldMap, constants.CountFood);
-                        //new CreatorSquares().AddBioSquare(WorldMap, constants.CountBio - Counter.CountLiveBio);
-                        //Counter.CountLiveBio = constants.CountBio;
+                        new CreatorSquares().RefreshHealthBio(WorldMap);
+                        new CreatorSquares().AddChild(WorldMap);
 
+                        //RaiseNextGen(NextGen);
                         i = int.MaxValue - 1;
                     }
                 }

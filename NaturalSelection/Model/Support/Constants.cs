@@ -20,6 +20,7 @@ namespace NaturalSelection.Model
         public int Width { get; set; }
         public int SizeBrain { get; private set; }
         public int ScaleChart { get; private set; }
+        public int CountWall { get; private set; }
 
         public Constants()
         {
@@ -31,6 +32,7 @@ namespace NaturalSelection.Model
             Energy = 10;
             CountAcid = 120;
             CountFood = 120;
+            CountWall = 20;
             Height = 15;
             Width = 15;
             SizeBrain = 64;

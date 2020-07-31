@@ -66,7 +66,7 @@ namespace NaturalSelection.ViewModel
 
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
-                //if (engine.WorldMap[i] != null)
+                if (engine.WorldMap[i] != null)
                     WorldMap[i] = constructor.ConstructorViewModel(engine.WorldMap[i]);
             }
         }

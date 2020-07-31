@@ -72,7 +72,6 @@
     <Compile Include="Model\Support\Constants.cs" />
     <Compile Include="Model\Support\Counter.cs" />
     <Compile Include="Model\Support\Direction.cs" />
-    <Compile Include="Model\Squares\EmptySquare.cs" />
     <Compile Include="Model\Squares\FoodSquare.cs" />
     <Compile Include="Model\Support\TypeSquare.cs" />
     <Compile Include="Model\Squares\WallSquare.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="ViewModel\VMSquares\ViewModelAcid.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelBase.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelBio.cs" />
-    <Compile Include="ViewModel\VMSquares\ViewModelEmpty.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelFood.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelSquares.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelWall.cs" />
