@@ -15,7 +15,9 @@ namespace NaturalSelection.Model
         private BaseSquare[] worldMap;
         private readonly Constants constants = new Constants();
         private bool minCountLive = false;
-        private Dictionary<TypeSquare, Action> pointerOffset;
+        private Dictionary<TypeSquare, Action> MovePointer;
+        private Dictionary<Direction, coordinate> CalcNextCoordinate;
+        private delegate void coordinate(ref Point newPoint);
         private BioSquare currentBio;
         private int currentIndex = 0;
         private int indexForAction = 1;
@@ -24,7 +26,7 @@ namespace NaturalSelection.Model
         {
             this.worldMap = worldMap;
 
-            pointerOffset = new Dictionary<TypeSquare, Action>
+            MovePointer = new Dictionary<TypeSquare, Action>
             {
                 { TypeSquare.ACID, () => currentBio.Pointer++},
                 { TypeSquare.FOOD, () => currentBio.Pointer += 2 },
@@ -32,6 +34,18 @@ namespace NaturalSelection.Model
                 { TypeSquare.WALL, () => currentBio.Pointer += 5 }
             };
 
+            CalcNextCoordinate = new Dictionary<Direction, coordinate>
+            {
+                {Direction.UP, (ref Point newPoint) => newPoint.Y-- },
+                {Direction.UPRIGHT, (ref Point newPoint) => { newPoint.Y--; newPoint.X++; } },
+                {Direction.RIGHT, (ref Point newPoint) => newPoint.X++ },
+                {Direction.RIGHTDOWN, (ref Point newPoint) => { newPoint.X++; newPoint.Y++; } },
+                {Direction.DOWN, (ref Point newPoint) => newPoint.Y++ },
+                {Direction.LEFTDOWN, (ref Point newPoint) => { newPoint.Y++; newPoint.X--; } },
+                {Direction.LEFT, (ref Point newPoint) => newPoint.X-- },
+                {Direction.UPLEFT, (ref Point newPoint) => {newPoint.Y--; newPoint.X--; }}
+            };
+            
             StartAction();
         }
 
@@ -99,56 +113,22 @@ namespace NaturalSelection.Model
         {
             Point newPoint = new Point();
             Direction oldDirection = currentBio.Direction;
-            int x, y;
 
-            x = currentBio.PointX;
-            y = currentBio.PointY;
+            newPoint.X = currentBio.PointX;
+            newPoint.Y = currentBio.PointY;
 
             currentBio.Direction += direction;
 
             if ((int)currentBio.Direction > 7)
                 currentBio.Direction -= 8;
 
-            switch (currentBio.Direction)
-            {
-                case Direction.UP:
-                    y--;
-                    break;
-                case Direction.UPRIGHT:
-                    y--;
-                    x++;
-                    break;
-                case Direction.RIGHT:
-                    x++;
-                    break;
-                case Direction.RIGHTDOWN:
-                    y++;
-                    x++;
-                    break;
-                case Direction.DOWN:
-                    y++;
-                    break;
-                case Direction.LEFTDOWN:
-                    y++;
-                    x--;
-                    break;
-                case Direction.LEFT:
-                    x--;
-                    break;
-                case Direction.UPLEFT:
-                    y--;
-                    x--;
-                    break;
-            }
+            CalcNextCoordinate[currentBio.Direction](ref newPoint);
 
-            newPoint.X = x;
-            newPoint.Y = y;
-
-            indexForAction = SearchIndex(x, y, 0, constants.CountBio * 3 + constants.CountAcid + constants.CountFood +
-                                            constants.WorldSizeX * 2 + constants.WorldSizeY * 2 + constants.CountWall + 10);
+            indexForAction = SearchIndex((int)newPoint.X, (int)newPoint.Y, 0, constants.CountBio * 3 + constants.CountAcid + constants.CountFood +
+                                         constants.WorldSizeX * 2 + constants.WorldSizeY * 2 + constants.CountWall + 10);
 
             if (worldMap[indexForAction] != null)
-                pointerOffset[worldMap[indexForAction].TypeSquare]();
+                MovePointer[worldMap[indexForAction].TypeSquare]();
             else
                 currentBio.Pointer += 4;
 
@@ -184,9 +164,8 @@ namespace NaturalSelection.Model
 
             if (worldMap[indexForAction] is AcidSquare)
             {
-                int x, y;
-                x = currentBio.PointX;
-                y = currentBio.PointY;
+                int x = currentBio.PointX;
+                int y = currentBio.PointY;
 
                 currentBio.Health = 50; // исключает двойное вычитание кол-ва живых
                 currentBio.PointX = -1;
@@ -268,7 +247,7 @@ namespace NaturalSelection.Model
                     return i;
             }
 
-            return 0;
+            throw new Exception("Поиск индекса следующей точки пошел по пизде");
         }
     }
 }

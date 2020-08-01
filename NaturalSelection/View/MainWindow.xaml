@@ -13,6 +13,7 @@
     d:DataContext="{d:DesignInstance user:MainWindowViewModel}"
     ScrollViewer.VerticalScrollBarVisibility="Disabled"
     SizeToContent="WidthAndHeight"
+    ResizeMode="NoResize"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -51,8 +52,8 @@
     <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
         <ItemsControl.ItemContainerStyle>
             <Style>
-                <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
-                <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged}" />
+                <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged}" />
                 <Setter Property="Grid.Width" Value="15" />
                 <Setter Property="Grid.Height" Value="15" />
                 <Setter Property="Grid.Margin" Value="1" />
@@ -61,8 +62,7 @@
 
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}">
-                </Grid>
+                <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}" />
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
     </ItemsControl>

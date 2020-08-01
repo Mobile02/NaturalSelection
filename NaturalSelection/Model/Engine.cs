@@ -43,6 +43,8 @@ namespace NaturalSelection.Model
 
                     if (Counter.CountLiveBio == constants.CountBio / 8)
                     {
+                        //new FileOperations().SaveBrain(WorldMap);
+
                         new CreatorSquares().RefreshHealthBio(WorldMap);
                         new CreatorSquares().AddChild(WorldMap);
 

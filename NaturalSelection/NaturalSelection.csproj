@@ -73,6 +73,7 @@
     <Compile Include="Model\Support\Counter.cs" />
     <Compile Include="Model\Support\Direction.cs" />
     <Compile Include="Model\Squares\FoodSquare.cs" />
+    <Compile Include="Model\Support\FileOperations.cs" />
     <Compile Include="Model\Support\TypeSquare.cs" />
     <Compile Include="Model\Squares\WallSquare.cs" />
     <Compile Include="Model\Support\UpdateInfo.cs" />
