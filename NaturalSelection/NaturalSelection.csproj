@@ -80,6 +80,7 @@
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />
     <Compile Include="ViewModel\Grid.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelAcid.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelBase.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelBio.cs" />

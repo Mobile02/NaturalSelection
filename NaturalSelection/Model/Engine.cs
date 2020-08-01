@@ -11,18 +11,54 @@ namespace NaturalSelection.Model
 {
     public class Engine
     {
+        private ManualResetEventSlim eventSlim;
         private Constants constants;
-        private int nextGen;
-        private void RaiseNextGen(int value) => ChangeNextGen?.Invoke(this, value);
+        private int timeLife;
+        private int generation;
+        private int maxTimeLife;
+        private void RaiseTimeLifeProperty(int value) => ChangeTimeLifeProperty?.Invoke(this, value);
+        private void RaiseGenerationProperty(int value) => ChangeGenerationProperty?.Invoke(this, value);
+        private void RaiseMaxTimeLifeProperty(int value) => ChangeMaxTimeLifeProperty?.Invoke(this, value);
 
 
-        public event EventHandler<int> ChangeNextGen;
+        public event EventHandler<int> ChangeTimeLifeProperty;
+        public event EventHandler<int> ChangeGenerationProperty;
+        public event EventHandler<int> ChangeMaxTimeLifeProperty;
+
+        #region Свойства
         public BaseSquare[] WorldMap { get; set; }
-        public int NextGen { get; set; }
-
+        public int TimeLife
+        {
+            get { return timeLife; }
+            set
+            {
+                timeLife = value;
+                RaiseTimeLifeProperty(TimeLife);
+            }
+        }
+        public int Generation
+        {
+            get { return generation; }
+            set
+            {
+                generation = value;
+                RaiseGenerationProperty(Generation);
+            }
+        }
+        public int MaxTimeLife
+        {
+            get { return maxTimeLife; }
+            set
+            {
+                maxTimeLife = value;
+                RaiseMaxTimeLifeProperty(MaxTimeLife);
+            }
+        }
+        public int Speed { get; set; }
+        #endregion
         public Engine()
         {
-
+            eventSlim = new ManualResetEventSlim(false);
             constants = new Constants();
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
@@ -33,26 +69,39 @@ namespace NaturalSelection.Model
 
         private void MainAsync()
         {
-            for (int gen = 0; gen < constants.CountCicle; gen++)
+            for (Generation = 0; Generation < constants.CountCicle; Generation++)
             {
                 for (int i = 0; i < int.MaxValue; i++)
                 {
-                    //Thread.Sleep(5);
+                    eventSlim.Wait();
+                    Thread.Sleep(Speed);
 
                     new BehaviorSquare(WorldMap);
 
+                    TimeLife = i;
+                    if (MaxTimeLife < TimeLife)
+                        MaxTimeLife = TimeLife;
+
                     if (Counter.CountLiveBio == constants.CountBio / 8)
                     {
-                        //new FileOperations().SaveBrain(WorldMap);
-
                         new CreatorSquares().RefreshHealthBio(WorldMap);
                         new CreatorSquares().AddChild(WorldMap);
 
-                        //RaiseNextGen(NextGen);
                         i = int.MaxValue - 1;
                     }
                 }
             }
+        }
+
+        public void Start()
+        {
+            eventSlim.Set();
+        }
+
+        public void Stop()
+        {
+            eventSlim.Reset();
+            new FileOperations().SaveBrain(WorldMap);
         }
     }
 }

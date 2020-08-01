@@ -11,9 +11,9 @@
     Width="800"
     Height="450"
     d:DataContext="{d:DesignInstance user:MainWindowViewModel}"
+    ResizeMode="NoResize"
     ScrollViewer.VerticalScrollBarVisibility="Disabled"
     SizeToContent="WidthAndHeight"
-    ResizeMode="NoResize"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -48,23 +48,190 @@
             </Button>
         </DataTemplate>
     </Window.Resources>
+    <Grid>
+        <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged}" />
+                    <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged}" />
+                    <Setter Property="Grid.Width" Value="15" />
+                    <Setter Property="Grid.Height" Value="15" />
+                    <Setter Property="Grid.Margin" Value="1" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
 
-    <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
-        <ItemsControl.ItemContainerStyle>
-            <Style>
-                <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged}" />
-                <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged}" />
-                <Setter Property="Grid.Width" Value="15" />
-                <Setter Property="Grid.Height" Value="15" />
-                <Setter Property="Grid.Margin" Value="1" />
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
-
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Button
+            Grid.Column="1"
+            Width="75"
+            Margin="8.4,99,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Command="{Binding ComStart}"
+            Content="Старт"
+            FontWeight="Bold" />
+        <Button
+            Grid.Column="1"
+            Width="75"
+            Margin="117.4,99,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Command="{Binding ComStop}"
+            Content="Стоп"
+            FontWeight="Bold" />
+        <Label
+            Grid.Column="1"
+            Margin="3.4,11,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Поколение" />
+        <Label
+            Grid.Column="1"
+            Margin="126.4,11,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding Generation, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Column="1"
+            Margin="126.4,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding TimeLife, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Column="1"
+            Margin="3.4,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Время жизни" />
+        <Label
+            Grid.Column="1"
+            Margin="67.4,130,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Скорость"
+            FontWeight="Bold" />
+        <Polyline
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="{Binding WidthChart, UpdateSourceTrigger=PropertyChanged}"
+            Margin="10"
+            HorizontalAlignment="Left"
+            Points="{Binding ChartTimeLife, UpdateSourceTrigger=PropertyChanged}"
+            RenderTransformOrigin="0.5,0.5"
+            Stretch="Fill"
+            Stroke="Red"
+            StrokeThickness="1">
+            <Polyline.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="-1" />
+                    <SkewTransform AngleX="0" AngleY="0" />
+                    <RotateTransform Angle="0" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Polyline.RenderTransform>
+        </Polyline>
+        <Label
+            Grid.Column="1"
+            Margin="3.4,52,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Max время жизни"
+            FontWeight="Bold" />
+        <Label
+            Grid.Column="1"
+            Margin="126.4,52,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding MaxTimeLife, UpdateSourceTrigger=PropertyChanged}"
+            FontWeight="Bold" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="10.4,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding SelectedSquare.Health}" />
+        <Slider
+            Grid.Column="1"
+            Width="182"
+            Margin="8.4,154,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            IsDirectionReversed="True"
+            LargeChange="20"
+            Maximum="200"
+            SmallChange="5"
+            Value="{Binding Speed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <Label
+            Grid.Column="1"
+            Margin="7.4,128,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="-"
+            FontSize="16"
+            FontWeight="Bold" />
+        <Label
+            Grid.Column="1"
+            Margin="175.4,128,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="+"
+            FontSize="16"
+            FontWeight="Bold" />
+        <!--  На будущее, пока не готово  -->
+        <Grid
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Margin="30,0,0,110"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom">
+            <ItemsControl ItemsSource="{Binding SelectedBrains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.Resources>
+                    <!--<user:BoolToColorConverter x:Key="BoolToColorConvert" />-->
+                </ItemsControl.Resources>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Width="15"
+                                        Height="15"
+                                        Margin="1"
+                                        Background="Blue">
+                                        <!--<Border Background="{Binding IsSelected, Converter={StaticResource BoolToColorConvert}, UpdateSourceTrigger=PropertyChanged}" />-->
+                                        <TextBlock
+                                            Margin="2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="White"
+                                            Text="{Binding Content}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+    </Grid>
 </Window>
