@@ -45,7 +45,7 @@ namespace NaturalSelection.Model
                 {Direction.LEFT, (ref Point newPoint) => newPoint.X-- },
                 {Direction.UPLEFT, (ref Point newPoint) => {newPoint.Y--; newPoint.X--; }}
             };
-            
+
             StartAction();
         }
 
@@ -99,7 +99,7 @@ namespace NaturalSelection.Model
                 currentBio.PointX = -1;
                 currentBio.PointY = -1;
                 Counter.CountLiveBio--;
-                
+
                 if (Counter.CountLiveBio == (constants.CountBio / 8))
                 {
                     minCountLive = true;
@@ -210,7 +210,8 @@ namespace NaturalSelection.Model
 
                 Counter.CountFood--;
 
-                new CreatorSquares().AddFoodSquare(worldMap, 1);
+                if (Counter.CountFood < constants.CountFood)
+                    new CreatorSquares().AddFoodSquare(worldMap, 1);
             }
 
             if (worldMap[indexForAction] is AcidSquare)
@@ -221,7 +222,8 @@ namespace NaturalSelection.Model
 
                 Counter.CountAcid--;
 
-                new CreatorSquares().AddAcidSquare(worldMap, 1);
+                if (Counter.CountAcid < constants.CountAcid)
+                    new CreatorSquares().AddAcidSquare(worldMap, 1);
             }
         }
 

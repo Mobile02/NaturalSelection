@@ -191,7 +191,7 @@ namespace NaturalSelection.ViewModel
             RefreshMap();
 
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
-            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
+            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); SelectedBio = null; };
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
         }
         private void RefreshMap()
