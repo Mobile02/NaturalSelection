@@ -215,7 +215,7 @@ namespace NaturalSelection.Model
                 return;
 
             int index = FindIndexAdd(worldMap, "Acid", constants.CountBio * 2 + constants.CountFood, constants.CountBio * 3 + constants.CountFood + constants.CountAcid);
-            if (index == 0) { MessageBox.Show("Снова та хуйня с ядом", index.ToString(), MessageBoxButton.OK); }
+            
             if (pointX == 0)
             {
                 pointY = random.Next(1, constants.WorldSizeY - 1);

@@ -13,6 +13,7 @@ namespace NaturalSelection.ViewModel
         private readonly BioSquare model;
         private int pointX;
         private int pointY;
+        private bool isSelected;
 
         public override int PointX
         {
@@ -32,12 +33,23 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("PointY");
             }
         }
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                RaisePropertyChanged("IsSelected");
+            }
+        }
         public ViewModelBio(BioSquare model) : base (model)
         {
             this.model = model;
             this.model.ChangeHealth += (sender, square) => RaisePropertyChanged(nameof(Health));
             this.model.ChangePointX += (sender, square) => PointX = square;
             this.model.ChangePointY += (sender, square) => PointY = square;
+            IsSelected = false;
         }
 
         public string Health => model.Health == 0 ? "" : model.Health.ToString();

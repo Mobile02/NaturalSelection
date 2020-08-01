@@ -20,14 +20,15 @@ namespace NaturalSelection.ViewModel
         private readonly Engine engine;
         private int countRows;
         private int countColumns;
-        ConstructorSquareViewModel constructor = new ConstructorSquareViewModel();
+        ConstructorSquareViewModel constructor;
         private int widthGraf;
-        private ViewModelBio selectedSquare;
         private ObservableCollection<int[]> chartTimeLife;
         private int timeLife;
         private int maxTimeLife;
         private int speed;
         private int generation;
+        private ViewModelBio selectedBio;
+        private int[] pointsY;
 
         private ICommand cStart;
         private ICommand cStop;
@@ -58,6 +59,17 @@ namespace NaturalSelection.ViewModel
             }
         }
 
+        public ICommand SelectItemCommand
+        {
+            get
+            {
+                if (selectItemCommand == null)
+                    return selectItemCommand = new RelayCommand(obj => SelectedItemCommand(obj));
+
+                return selectItemCommand;
+            }
+        }
+
         #endregion
 
         #region Свойства
@@ -71,13 +83,13 @@ namespace NaturalSelection.ViewModel
             }
         }
 
-        public ViewModelBio SelectedSquare
+        public ViewModelBio SelectedBio
         {
-            get { return selectedSquare; }
+            get { return selectedBio; }
             set
             {
-                selectedSquare = value;
-                RaisePropertyChanged("SelectedSquare");
+                selectedBio = value;
+                RaisePropertyChanged("SelectedBio");
             }
         }
 
@@ -165,14 +177,21 @@ namespace NaturalSelection.ViewModel
         {
             CountRows = constants.WorldSizeY;
             CountColumns = constants.WorldSizeX;
+            pointsY = new int[constants.CountCicle];
+            WidthChart = (int)(constants.WorldSizeX * 15 + (constants.WorldSizeX * 1.5));
 
             engine = new Engine();
+            constructor = new ConstructorSquareViewModel();
+            ChartTimeLife = new ObservableCollection<int[]>();
+
             Speed = 20;
+
+            pointsY = engine.ArrayTimeLife;
 
             RefreshMap();
 
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
-            engine.ChangeGenerationProperty += (sender, e) => Generation = e;
+            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
         }
         private void RefreshMap()
@@ -186,6 +205,12 @@ namespace NaturalSelection.ViewModel
             }
         }
 
+        private void UpdateChartLife()
+        {
+            ChartTimeLife.Clear();
+            ChartTimeLife = new ChartLife().UpdateChart(pointsY, Generation);
+        }
+
         private void Start()
         {
             engine.Start();
@@ -194,6 +219,15 @@ namespace NaturalSelection.ViewModel
         private void Stop()
         {
             engine.Stop();
+        }
+
+        private void SelectedItemCommand(object obj)
+        {
+            if (SelectedBio != null)
+                SelectedBio.IsSelected = false;
+
+            SelectedBio = obj as ViewModelBio;
+            SelectedBio.IsSelected = true;
         }
     }
 }

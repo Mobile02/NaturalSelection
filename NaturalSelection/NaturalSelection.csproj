@@ -64,6 +64,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\BehaviorSquare.cs" />
+    <Compile Include="Model\ChartLife.cs" />
     <Compile Include="Model\CreatorSquares.cs" />
     <Compile Include="Model\Engine.cs" />
     <Compile Include="Model\Squares\AcidSquare.cs" />
@@ -78,6 +79,8 @@
     <Compile Include="Model\Squares\WallSquare.cs" />
     <Compile Include="Model\Support\UpdateInfo.cs" />
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />
+    <Compile Include="ViewModel\Converters\BoolToColorTxtConvert.cs" />
+    <Compile Include="ViewModel\Converters\ObservableToPointCollectionConvert.cs" />
     <Compile Include="ViewModel\Grid.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

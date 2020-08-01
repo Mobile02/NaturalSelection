@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ap="clr-namespace:NaturalSelection.ViewModel"
+    xmlns:convert="clr-namespace:NaturalSelection.ViewModel.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:NaturalSelection"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,6 +18,9 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+        <convert:BoolToColorTxtConvert x:Key="BoolToColorTxtConvert" />
+        <convert:ObservableToPointCollectionConverter x:Key="PointConvert" />
+
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
             <Grid Background="Gray" />
         </DataTemplate>
@@ -40,7 +44,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="10"
-                                Foreground="White"
+                                Foreground="{Binding IsSelected, Converter={StaticResource BoolToColorTxtConvert}}"
                                 Text="{Binding Health, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </ControlTemplate>
@@ -121,7 +125,7 @@
             Width="{Binding WidthChart, UpdateSourceTrigger=PropertyChanged}"
             Margin="10"
             HorizontalAlignment="Left"
-            Points="{Binding ChartTimeLife, UpdateSourceTrigger=PropertyChanged}"
+            Points="{Binding ChartTimeLife, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PointConvert}}"
             RenderTransformOrigin="0.5,0.5"
             Stretch="Fill"
             Stroke="Red"
@@ -155,7 +159,7 @@
             Margin="10.4,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="{Binding SelectedSquare.Health}" />
+            Content="{Binding SelectedBio.Health}" />
         <Slider
             Grid.Column="1"
             Width="182"
@@ -191,9 +195,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom">
             <ItemsControl ItemsSource="{Binding SelectedBrains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.Resources>
-                    <!--<user:BoolToColorConverter x:Key="BoolToColorConvert" />-->
-                </ItemsControl.Resources>
+                <ItemsControl.Resources />
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ItemsControl ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">

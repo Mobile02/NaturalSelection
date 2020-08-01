@@ -16,6 +16,7 @@ namespace NaturalSelection.Model
         private int timeLife;
         private int generation;
         private int maxTimeLife;
+
         private void RaiseTimeLifeProperty(int value) => ChangeTimeLifeProperty?.Invoke(this, value);
         private void RaiseGenerationProperty(int value) => ChangeGenerationProperty?.Invoke(this, value);
         private void RaiseMaxTimeLifeProperty(int value) => ChangeMaxTimeLifeProperty?.Invoke(this, value);
@@ -55,6 +56,7 @@ namespace NaturalSelection.Model
             }
         }
         public int Speed { get; set; }
+        public int[] ArrayTimeLife;
         #endregion
         public Engine()
         {
@@ -63,6 +65,8 @@ namespace NaturalSelection.Model
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
             new CreatorSquares().InitWorldMap(WorldMap);
+
+            ArrayTimeLife = new int[constants.CountCicle];
 
             new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
         }
@@ -87,6 +91,7 @@ namespace NaturalSelection.Model
                         new CreatorSquares().RefreshHealthBio(WorldMap);
                         new CreatorSquares().AddChild(WorldMap);
 
+                        ArrayTimeLife[Generation] = TimeLife;
                         i = int.MaxValue - 1;
                     }
                 }
