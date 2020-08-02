@@ -180,15 +180,9 @@ namespace NaturalSelection.Model
             new CreatorSquares().FillField(worldMap);
         }
 
-        public void AddFoodSquare(BaseSquare[] worldMap, int count, int pointX = 0, int pointY = 0)
+        public void AddFoodSquare(BaseSquare[] worldMap, int count, int pointX = -1, int pointY = -1)
         {
             int index = FindIndexAdd(worldMap, "Food", constants.CountBio, constants.CountBio * 2 + constants.CountFood);
-
-            if (pointX == 0)
-            {
-                pointY = random.Next(1, constants.WorldSizeY - 1);
-                pointX = random.Next(1, constants.WorldSizeX - 1);
-            }
 
             while (count > 0)
             {
@@ -206,16 +200,10 @@ namespace NaturalSelection.Model
             }
         }
 
-        public void AddAcidSquare(BaseSquare[] worldMap, int count, int pointX = 0, int pointY = 0)
+        public void AddAcidSquare(BaseSquare[] worldMap, int count, int pointX = -1, int pointY = -1)
         {
             int index = FindIndexAdd(worldMap, "Acid", constants.CountBio * 2 + constants.CountFood, constants.CountBio * 3 + constants.CountFood + constants.CountAcid);
             
-            if (pointX == 0)
-            {
-                pointY = random.Next(1, constants.WorldSizeY - 1);
-                pointX = random.Next(1, constants.WorldSizeX - 1);
-            }
-
             while (count > 0)
             {
                 if (!CheckIndex(worldMap, pointX, pointY))

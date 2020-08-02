@@ -2,7 +2,6 @@
     x:Class="NaturalSelection.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ap="clr-namespace:NaturalSelection.ViewModel"
     xmlns:commands="clr-namespace:NaturalSelection.ViewModel.Commands"
     xmlns:convert="clr-namespace:NaturalSelection.ViewModel.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -182,12 +181,12 @@
             LargeChange="20"
             Maximum="200"
             SmallChange="5"
+            TickFrequency="5"
             Value="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseWheel">
-                    <i:InvokeCommandAction Command="{Binding Source={StaticResource SliderMouseWheel}}" 
-                                           CommandParameter="{Binding ElementName=slider}" />
+                    <i:InvokeCommandAction Command="{Binding Source={StaticResource SliderMouseWheel}}" CommandParameter="{Binding ElementName=slider}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

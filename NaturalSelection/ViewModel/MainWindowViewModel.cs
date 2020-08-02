@@ -29,6 +29,7 @@ namespace NaturalSelection.ViewModel
         private int generation;
         private ViewModelBio selectedBio;
         private int[] pointsY;
+        private ChartLife chartLife;
 
         private ICommand cStart;
         private ICommand cStop;
@@ -183,6 +184,7 @@ namespace NaturalSelection.ViewModel
             engine = new Engine();
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
+            chartLife = new ChartLife();
 
             Speed = 20;
 
@@ -222,7 +224,7 @@ namespace NaturalSelection.ViewModel
         private void UpdateChartLife()
         {
             ChartTimeLife.Clear();
-            ChartTimeLife = new ChartLife().UpdateChart(pointsY, Generation);
+            ChartTimeLife = chartLife.UpdateChart(ChartTimeLife, pointsY, Generation);
         }
 
         private void Start()

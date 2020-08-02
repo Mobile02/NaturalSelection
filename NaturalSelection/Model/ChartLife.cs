@@ -13,7 +13,7 @@ namespace NaturalSelection.Model
         private int maxPointX;
         private Constants constants = new Constants();
 
-        public ObservableCollection<int[]> UpdateChart(int[] pointY, int generation)
+        public ObservableCollection<int[]> UpdateChart(ObservableCollection<int[]> points, int[] pointY, int generation)
         {
             maxPointX = generation;
 
@@ -23,15 +23,13 @@ namespace NaturalSelection.Model
                 maxPointX = constants.ScaleChart;
             }
 
-            ObservableCollection<int[]> points = new ObservableCollection<int[]>();
-
             int[] point = new int[2];
 
             for (int pointX = 0; pointX < maxPointX; pointX++)
             {
                 point[0] = pointX;
                 point[1] = pointY[pointX + offsetX];
-                points.Add((int[])point.Clone());
+                points.Insert(pointX, (int[])point.Clone());
             }
 
             return points;

@@ -23,16 +23,20 @@ namespace NaturalSelection.ViewModel.Commands
         {
             Slider slider = sender as Slider;
 
+            int value = (int)slider.Value;
+
             if (e.Delta < 0)
             {
-                if (++slider.Value > new Constants().MaxSpeed)
-                    slider.Value = new Constants().MaxSpeed;
+                if (++value > slider.Maximum)
+                    value = (int)slider.Maximum;
             }
             else
             {
-                if (--slider.Value < 0)
-                    slider.Value = 0;
+                if (--value <= slider.Minimum)
+                    value = (int)slider.Minimum;
             }
+
+            slider.Value = value;
         }
     }
 }
