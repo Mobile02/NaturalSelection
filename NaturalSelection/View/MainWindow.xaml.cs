@@ -24,23 +24,5 @@ namespace NaturalSelection
         {
             InitializeComponent();
         }
-
-        private void Slider_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            double value = (sender as Slider).Value;
-
-            if (e.Delta < 0)
-            {
-                if (++value > (sender as Slider).Maximum)
-                    value = (sender as Slider).Maximum;
-            }
-            else
-            {
-                if (--value < (sender as Slider).Minimum)
-                    value = (sender as Slider).Minimum;
-            }
-
-            (sender as Slider).Value = value;
-        }
     }
 }

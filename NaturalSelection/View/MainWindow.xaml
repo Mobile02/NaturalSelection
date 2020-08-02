@@ -3,15 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ap="clr-namespace:NaturalSelection.ViewModel"
+    xmlns:commands="clr-namespace:NaturalSelection.ViewModel.Commands"
     xmlns:convert="clr-namespace:NaturalSelection.ViewModel.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:NaturalSelection"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:user="clr-namespace:NaturalSelection.ViewModel"
     Title="Natural selection"
     Width="800"
     Height="450"
-    d:DataContext="{d:DesignInstance user:MainWindowViewModel}"
+    d:DataContext="{d:DesignInstance {x:Type user:MainWindowViewModel}}"
     ResizeMode="NoResize"
     ScrollViewer.VerticalScrollBarVisibility="Disabled"
     SizeToContent="WidthAndHeight"
@@ -20,6 +22,7 @@
     <Window.Resources>
         <convert:BoolToColorTxtConvert x:Key="BoolToColorTxtConvert" />
         <convert:ObservableToPointCollectionConverter x:Key="PointConvert" />
+        <commands:SliderMouseWheelCommand x:Key="SliderMouseWheel" />
 
         <DataTemplate DataType="{x:Type user:ViewModelWall}">
             <Grid Background="Gray" />
@@ -34,8 +37,8 @@
             <Button
                 Grid.Row="{Binding PointY}"
                 Grid.Column="{Binding PointX}"
-                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectItemCommand}"
-                CommandParameter="{Binding Path=.}">
+                Command="{Binding DataContext.SelectItemCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                CommandParameter="{Binding .}">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid Background="Blue">
@@ -53,20 +56,28 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{Binding WorldMap, UpdateSourceTrigger=PropertyChanged}">
             <ItemsControl.ItemContainerStyle>
                 <Style>
                     <Setter Property="Grid.Row" Value="{Binding PointY, UpdateSourceTrigger=PropertyChanged}" />
                     <Setter Property="Grid.Column" Value="{Binding PointX, UpdateSourceTrigger=PropertyChanged}" />
-                    <Setter Property="Grid.Width" Value="15" />
-                    <Setter Property="Grid.Height" Value="15" />
-                    <Setter Property="Grid.Margin" Value="1" />
+                    <Setter Property="FrameworkElement.Width" Value="15" />
+                    <Setter Property="FrameworkElement.Height" Value="15" />
+                    <Setter Property="FrameworkElement.Margin" Value="1" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid ap:Grid.Columns="{Binding CountColumns}" ap:Grid.Rows="{Binding CountRows}" />
+                    <Grid user:Grid.Columns="{Binding CountColumns}" user:Grid.Rows="{Binding CountRows}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -125,7 +136,7 @@
             Width="{Binding WidthChart, UpdateSourceTrigger=PropertyChanged}"
             Margin="10"
             HorizontalAlignment="Left"
-            Points="{Binding ChartTimeLife, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PointConvert}}"
+            Points="{Binding ChartTimeLife, Converter={StaticResource PointConvert}, UpdateSourceTrigger=PropertyChanged}"
             RenderTransformOrigin="0.5,0.5"
             Stretch="Fill"
             Stroke="Red"
@@ -161,7 +172,7 @@
             VerticalAlignment="Top"
             Content="{Binding SelectedBio.Health}" />
         <Slider
-            MouseWheel="Slider_MouseWheel"
+            x:Name="slider"
             Grid.Column="1"
             Width="182"
             Margin="8.4,154,0,0"
@@ -171,7 +182,16 @@
             LargeChange="20"
             Maximum="200"
             SmallChange="5"
-            Value="{Binding Speed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            Value="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseWheel">
+                    <i:InvokeCommandAction Command="{Binding Source={StaticResource SliderMouseWheel}}" 
+                                           CommandParameter="{Binding ElementName=slider}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+        </Slider>
         <Label
             Grid.Column="1"
             Margin="7.4,128,0,0"
@@ -196,7 +216,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom">
             <ItemsControl ItemsSource="{Binding SelectedBrains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.Resources />
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ItemsControl ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
@@ -228,13 +247,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="200" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="100" />
-        </Grid.RowDefinitions>
     </Grid>
 </Window>

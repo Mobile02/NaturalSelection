@@ -21,6 +21,7 @@ namespace NaturalSelection.Model
         public int SizeBrain { get; private set; }
         public int ScaleChart { get; private set; }
         public int CountWall { get; private set; }
+        public int MaxSpeed { get; set; }
 
         public Constants()
         {
@@ -37,6 +38,7 @@ namespace NaturalSelection.Model
             Width = 15;
             SizeBrain = 64;
             ScaleChart = 700;
+            MaxSpeed = 200;
         }
     }
 }
