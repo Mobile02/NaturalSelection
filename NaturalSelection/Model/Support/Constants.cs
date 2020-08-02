@@ -29,7 +29,7 @@ namespace NaturalSelection.Model
             CountBio = 64; // кратно 8
             CountCicle = 100000;
             HealthSquare = 50;
-            Energy = 10;
+            Energy = 15;
             CountAcid = 120;
             CountFood = 120;
             CountWall = 20;

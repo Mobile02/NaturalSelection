@@ -182,9 +182,6 @@ namespace NaturalSelection.Model
 
         public void AddFoodSquare(BaseSquare[] worldMap, int count, int pointX = 0, int pointY = 0)
         {
-            if (Counter.CountFood > constants.CountFood + constants.CountBio - 1)
-                return;
-
             int index = FindIndexAdd(worldMap, "Food", constants.CountBio, constants.CountBio * 2 + constants.CountFood);
 
             if (pointX == 0)
@@ -211,9 +208,6 @@ namespace NaturalSelection.Model
 
         public void AddAcidSquare(BaseSquare[] worldMap, int count, int pointX = 0, int pointY = 0)
         {
-            if (Counter.CountAcid > constants.CountAcid + constants.CountBio - 10)
-                return;
-
             int index = FindIndexAdd(worldMap, "Acid", constants.CountBio * 2 + constants.CountFood, constants.CountBio * 3 + constants.CountFood + constants.CountAcid);
             
             if (pointX == 0)

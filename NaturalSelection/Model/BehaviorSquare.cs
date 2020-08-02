@@ -154,7 +154,8 @@ namespace NaturalSelection.Model
 
                 Counter.CountFood--;
 
-                new CreatorSquares().AddFoodSquare(worldMap, 1);
+                if (Counter.CountFood < constants.CountFood)
+                    new CreatorSquares().AddFoodSquare(worldMap, 1);
             }
 
             if (worldMap[indexForAction] is null)
@@ -172,7 +173,8 @@ namespace NaturalSelection.Model
                 currentBio.PointY = -1;
                 Counter.CountLiveBio--;
 
-                new CreatorSquares().AddAcidSquare(worldMap, 1, x, y);
+                if (Counter.CountAcid < constants.CountAcid + constants.CountBio - 1)
+                    new CreatorSquares().AddAcidSquare(worldMap, 1, x, y);
 
                 if (Counter.CountLiveBio == (constants.CountBio / 8))
                     minCountLive = true;

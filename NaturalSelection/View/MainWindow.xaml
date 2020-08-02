@@ -161,6 +161,7 @@
             VerticalAlignment="Top"
             Content="{Binding SelectedBio.Health}" />
         <Slider
+            MouseWheel="Slider_MouseWheel"
             Grid.Column="1"
             Width="182"
             Margin="8.4,154,0,0"

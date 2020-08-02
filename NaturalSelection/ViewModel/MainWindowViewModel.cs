@@ -41,7 +41,7 @@ namespace NaturalSelection.ViewModel
             {
                 if (cStart == null)
                 {
-                    return cStart = new RelayCommand(obj => Start()) ;
+                    return cStart = new RelayCommand(obj => Start());
                 }
                 return cStart;
             }
@@ -162,7 +162,7 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("CountRows");
             }
         }
-        public int CountColumns 
+        public int CountColumns
         {
             get { return countColumns; }
             set
@@ -191,9 +191,23 @@ namespace NaturalSelection.ViewModel
             RefreshMap();
 
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
-            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); SelectedBio = null; };
+            engine.ChangeGenerationProperty += Engine_ChangeGenerationProperty;
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
         }
+
+        private void Engine_ChangeGenerationProperty(object sender, int e)
+        {
+            Generation = e;
+
+            UpdateChartLife();
+
+            if (SelectedBio != null)
+            {
+                SelectedBio.IsSelected = false;
+                SelectedBio = null;
+            }
+        }
+
         private void RefreshMap()
         {
             WorldMap = new ViewModelSquares[constants.WorldSizeX * constants.WorldSizeY];
