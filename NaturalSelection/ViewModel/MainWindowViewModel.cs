@@ -204,23 +204,8 @@ namespace NaturalSelection.ViewModel
             RefreshMap();
 
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
-            engine.ChangeGenerationProperty += Engine_ChangeGenerationProperty;
+            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
-        }
-
-        private void Engine_ChangeGenerationProperty(object sender, int e)
-        {
-            Generation = e;
-
-            UpdateChartLife();
-
-            if (SelectedBio != null)
-            {
-                SelectedBio.ChangePointer -= SelectedBio_ChangePointer;
-                SelectedBio.IsSelected = false;
-                SelectedBio = null;
-                BrainViewModels = null;
-            }
         }
 
         private void RefreshMap()
@@ -254,6 +239,8 @@ namespace NaturalSelection.ViewModel
         {
             if (SelectedBio != null)
             {
+                SelectedBio.ChangePointer -= SelectedBio_ChangePointer;
+                SelectedBio.Dead -= SelectedBio_Dead;
                 SelectedBio.IsSelected = false;
             }
 
@@ -267,7 +254,17 @@ namespace NaturalSelection.ViewModel
                 BrainViewModels.Add(new BrainViewModel(i % 8, i / 8, SelectedBio.Pointer == i, SelectedBio.Brain[i].ToString()));
             }
 
+            SelectedBio.Dead += SelectedBio_Dead;
             SelectedBio.ChangePointer += SelectedBio_ChangePointer;
+        }
+
+        private void SelectedBio_Dead(object sender, bool e)
+        {
+            SelectedBio.ChangePointer -= SelectedBio_ChangePointer;
+            SelectedBio.Dead -= SelectedBio_Dead;
+            SelectedBio.IsSelected = false;
+            SelectedBio = null;
+            BrainViewModels = null;
         }
 
         private void SelectedBio_ChangePointer(object sender, int e)

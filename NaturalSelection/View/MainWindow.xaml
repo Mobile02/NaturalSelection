@@ -174,13 +174,6 @@
             VerticalAlignment="Top"
             Content="{Binding MaxTimeLife, UpdateSourceTrigger=PropertyChanged}"
             FontWeight="Bold" />
-        <Label
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10.4,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Content="{Binding SelectedBio.Health}" />
         <Slider
             x:Name="slider"
             Grid.Column="1"

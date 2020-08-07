@@ -18,7 +18,9 @@ namespace NaturalSelection.ViewModel
         private int[] brain;
 
         public event EventHandler<int> ChangePointer;
+        public event EventHandler<bool> Dead;
         private void RaisePointer(int value) => ChangePointer?.Invoke(this, value);
+        private void RaiseDead(bool value) => Dead?.Invoke(this, value);
 
         #region Свойства
         public override int PointX
@@ -28,6 +30,8 @@ namespace NaturalSelection.ViewModel
             {
                 pointX = value;
                 RaisePropertyChanged("PointX");
+                if (pointX == -1)
+                    RaiseDead(true);
             }
         }
         public override int PointY
