@@ -14,7 +14,13 @@ namespace NaturalSelection.ViewModel
         private int pointX;
         private int pointY;
         private bool isSelected;
+        private int pointer;
+        private int[] brain;
 
+        public event EventHandler<int> ChangePointer;
+        private void RaisePointer(int value) => ChangePointer?.Invoke(this, value);
+
+        #region Свойства
         public override int PointX
         {
             get { return pointX; }
@@ -33,7 +39,6 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("PointY");
             }
         }
-
         public bool IsSelected
         {
             get { return isSelected; }
@@ -43,12 +48,34 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("IsSelected");
             }
         }
-        public ViewModelBio(BioSquare model) : base (model)
+        public int Pointer
+        {
+            get { return pointer; }
+            set
+            {
+                pointer = value;
+                if (Pointer < 64)
+                    RaisePointer(Pointer);
+            }
+        }
+        public int[] Brain
+        {
+            get { return brain; }
+            set
+            {
+                brain = value;
+                RaisePropertyChanged("Brain");
+            }
+        }
+        #endregion
+        public ViewModelBio(BioSquare model) : base(model)
         {
             this.model = model;
+            Brain = model.Brain;
             this.model.ChangeHealth += (sender, square) => RaisePropertyChanged(nameof(Health));
-            this.model.ChangePointX += (sender, square) => PointX = square;
-            this.model.ChangePointY += (sender, square) => PointY = square;
+            this.model.ChangePointX += (sender, X) => PointX = X;
+            this.model.ChangePointY += (sender, Y) => PointY = Y;
+            this.model.ChangePointer += (sender, squarePointer) => Pointer = squarePointer;
             IsSelected = false;
         }
 

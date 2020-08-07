@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NaturalSelection.ViewModel.Behaviors
+namespace NaturalSelection.View.Behaviors
 {
     public class MouseWheelBehavior : Behavior<Slider>
     {

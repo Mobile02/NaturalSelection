@@ -11,14 +11,18 @@ namespace NaturalSelection.Model
         private int health;
         private int pointX;
         private int pointY;
+        private int pointer;
 
         private void RaiseHealth(int value) => ChangeHealth?.Invoke(this, value);
         private void RaisePointX(int value) => ChangePointX?.Invoke(this, value);
         private void RaisePointY(int value) => ChangePointY?.Invoke(this, value);
+        private void RaisePointer(int value) => ChangePointer?.Invoke(this, value);
+
 
         public event EventHandler<int> ChangeHealth;
         public event EventHandler<int> ChangePointX;
         public event EventHandler<int> ChangePointY;
+        public event EventHandler<int> ChangePointer;
 
         public int Health
         {
@@ -49,10 +53,19 @@ namespace NaturalSelection.Model
             }
         }
 
+        public int Pointer
+        {
+            get { return pointer; }
+            set
+            {
+                pointer = value;
+                RaisePointer(Pointer);
+            }
+        }
 
         public Direction Direction { get; set; }
         public int[] Brain { get; set; }
-        public int Pointer { get; set; }
+        
 
         public BioSquare(int x, int y, int index) : base(x, y, index)
         {

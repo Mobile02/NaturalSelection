@@ -81,13 +81,15 @@
     <Compile Include="Model\Support\TypeSquare.cs" />
     <Compile Include="Model\Squares\WallSquare.cs" />
     <Compile Include="Model\Support\UpdateInfo.cs" />
-    <Compile Include="ViewModel\Commands\SliderMouseWheelCommand.cs" />
+    <Compile Include="ViewModel\BrainViewModel.cs" />
+    <Compile Include="ViewModel\Converters\BoolToColorBackgroundConverter.cs" />
+    <Compile Include="View\Commands\SliderMouseWheelCommand.cs" />
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />
     <Compile Include="ViewModel\Converters\BoolToColorTxtConvert.cs" />
     <Compile Include="ViewModel\Converters\ObservableToPointCollectionConvert.cs" />
     <Compile Include="ViewModel\Grid.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\Behaviors\MouseWheelBehavior.cs" />
+    <Compile Include="View\Behaviors\MouseWheelBehavior.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelAcid.cs" />
     <Compile Include="ViewModel\VMSquares\ViewModelBase.cs" />

@@ -1,4 +1,5 @@
 ﻿using NaturalSelection.Model;
+using NaturalSelection.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NaturalSelection.ViewModel.Commands
+namespace NaturalSelection.View.Commands
 {
     public class SliderMouseWheelCommand : RelayCommand
     {
