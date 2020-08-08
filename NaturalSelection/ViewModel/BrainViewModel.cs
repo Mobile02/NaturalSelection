@@ -12,8 +12,10 @@ namespace NaturalSelection.ViewModel
     {
         private ObservableCollection<GenomViewModel> genomViewModels;
         private ViewModelBio selectedBio;
-        private Constants constants = new Constants();
+        private Constants constants;
         private int prevIndexBrain = 0;
+        private int countColumns;
+        private int countRows;
 
         public ObservableCollection<GenomViewModel> GenomViewModels
         {
@@ -24,15 +26,43 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("GenomViewModels");
             }
         }
+        public int CountColumns
+        {
+            get { return countColumns; }
+            set
+            {
+                countColumns = value;
+                RaisePropertyChanged("CountColumns");
+            }
+        }
+        public int CountRows
+        {
+            get { return countRows; }
+            set
+            {
+                countRows = value;
+                RaisePropertyChanged("CountRows");
+            }
+        }
+
+        public BrainViewModel()
+        {
+            constants = new Constants();
+            CountColumns = 8;
+            CountRows = constants.SizeBrain / 8;
+        }
 
         public void SetSelectedBio(ViewModelBio viewModelBio)
         {
             selectedBio = viewModelBio;
             GenomViewModels = new ObservableCollection<GenomViewModel>();
 
+            if (viewModelBio == null)
+                return;
+
             for (int i = 0; i < constants.SizeBrain; i++)
             {
-                GenomViewModels.Add(new GenomViewModel(i % 8, i / 8, selectedBio.Pointer == i, selectedBio.Brain[i].ToString())); //TODO: Не забыть про 8
+                GenomViewModels.Add(new GenomViewModel(i % 8, i / (constants.SizeBrain / 8), selectedBio.Pointer == i, selectedBio.Brain[i].ToString()));
             }
 
             selectedBio.Dead += SelectedBio_Dead;

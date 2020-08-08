@@ -29,7 +29,7 @@ namespace NaturalSelection.Model
         public event EventHandler<bool> OnReset;
 
         #region Свойства
-        public BaseSquare[] WorldMap { get; set; }
+        public BaseSquare[] WorldMap { get; private set; }
         public int TimeLife
         {
             get { return timeLife; }
@@ -68,7 +68,7 @@ namespace NaturalSelection.Model
             StartNewSelection();
         }
 
-        private void StartNewSelection()
+        private void StartNewSelection(string PathToSavedWorldMap = "")
         {
             Counter.CountAcid = 0;
             Counter.CountFood = 0;
@@ -77,7 +77,12 @@ namespace NaturalSelection.Model
 
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
-            new CreatorSquares().InitWorldMap(WorldMap);
+            if (PathToSavedWorldMap == "")
+                new CreatorSquares().InitWorldMap(WorldMap);
+            else
+            {
+                //TODO: Сделать загрузку сохранения
+            }
 
             ArrayTimeLife = new int[constants.CountCicle];
 

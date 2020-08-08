@@ -238,8 +238,7 @@
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Grid user:Grid.Columns="8" user:Grid.Rows="8" />
-                        <!--  Тут тоже не забыть про 8  -->
+                        <Grid user:Grid.Columns="{Binding BrainViewModel.CountColumns}" user:Grid.Rows="{Binding BrainViewModel.CountRows}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

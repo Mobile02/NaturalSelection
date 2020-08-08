@@ -37,7 +37,7 @@ namespace NaturalSelection.ViewModel
         private ICommand cStartPause;
         private ICommand cReset;
         private ICommand selectItemCommand;
-        
+
 
         #region Commands
         public ICommand ComStartPause
@@ -186,8 +186,8 @@ namespace NaturalSelection.ViewModel
             }
         }
 
-        public string ButtonContent 
-        {   
+        public string ButtonContent
+        {
             get { return buttonContent; }
             set
             {
@@ -216,7 +216,7 @@ namespace NaturalSelection.ViewModel
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
             chartLife = new ChartLife();
-            
+
             Speed = 20;
 
             pointsY = engine.ArrayTimeLife;
@@ -244,7 +244,13 @@ namespace NaturalSelection.ViewModel
         private void Reset()
         {
             engine.Reset();
+
             IsRunning = false;
+            SelectedBio = null;
+            brainViewModel.SetSelectedBio(null);
+            MaxTimeLife = 0;
+            TimeLife = 0;
+            Generation = 0;
         }
 
         private void SelectedItemCommand(object obj)
