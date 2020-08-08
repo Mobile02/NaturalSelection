@@ -24,8 +24,9 @@
         <convert:ObservableToPointCollectionConverter x:Key="PointConvert" />
         <convert:BoolToColorBackgroundConverter x:Key="BackgroundConvert" />
         <!--<commands:SliderMouseWheelCommand x:Key="SliderMouseWheel" /> -->
+        <!--<user:BrainViewModel x:Key="BrainViewModel"/>-->
 
-        <DataTemplate DataType="{x:Type user:BrainViewModel}">
+        <DataTemplate DataType="{x:Type user:GenomViewModel}">
             <Grid Background="{Binding IsSelected, Converter={StaticResource BackgroundConvert}}">
                 <TextBlock
                     HorizontalAlignment="Center"
@@ -87,7 +88,10 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid user:Grid.Columns="{Binding CountColumns}" user:Grid.Rows="{Binding CountRows}" />
+                    <Grid
+                        user:Grid.Columns="{Binding CountColumns}"
+                        user:Grid.Rows="{Binding CountRows}"
+                        Background="WhiteSmoke" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -222,7 +226,7 @@
             Margin="15,0,0,110"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom">
-            <ItemsControl ItemsSource="{Binding BrainViewModels}">
+            <ItemsControl ItemsSource="{Binding BrainViewModel.GenomViewModels, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="Grid.Row" Value="{Binding Row, UpdateSourceTrigger=PropertyChanged}" />
@@ -236,9 +240,11 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid user:Grid.Columns="8" user:Grid.Rows="8" />
+                        <!--  Тут тоже не забыть про 8  -->
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+            
         </Grid>
     </Grid>
 </Window>

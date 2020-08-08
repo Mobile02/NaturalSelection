@@ -82,6 +82,7 @@
     <Compile Include="Model\Squares\WallSquare.cs" />
     <Compile Include="Model\Support\UpdateInfo.cs" />
     <Compile Include="ViewModel\BrainViewModel.cs" />
+    <Compile Include="ViewModel\GenomViewModel.cs" />
     <Compile Include="ViewModel\Converters\BoolToColorBackgroundConverter.cs" />
     <Compile Include="View\Commands\SliderMouseWheelCommand.cs" />
     <Compile Include="ViewModel\ConstructorSquareViewModel.cs" />

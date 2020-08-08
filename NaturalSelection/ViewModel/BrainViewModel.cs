@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NaturalSelection.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +10,49 @@ namespace NaturalSelection.ViewModel
 {
     public class BrainViewModel : ViewModelBase
     {
-        public int Column { get; set; }
-        public int Row { get; set; }
-        public string Genom { get; set; }
+        private ObservableCollection<GenomViewModel> genomViewModels;
+        private ViewModelBio selectedBio;
+        private Constants constants = new Constants();
+        private int prevIndexBrain = 0;
 
-        private bool isSelected;
-
-        public bool IsSelected
+        public ObservableCollection<GenomViewModel> GenomViewModels
         {
-            get { return isSelected; }
+            get { return genomViewModels; }
             set
             {
-                isSelected = value;
-                RaisePropertyChanged("IsSelected");
+                genomViewModels = value;
+                RaisePropertyChanged("GenomViewModels");
             }
         }
 
-        public BrainViewModel(int column, int row, bool isSelected, string genom)
+        public void SetSelectedBio(ViewModelBio viewModelBio)
         {
-            Column = column;
-            Row = row;
-            IsSelected = isSelected;
-            Genom = genom;
+            selectedBio = viewModelBio;
+            GenomViewModels = new ObservableCollection<GenomViewModel>();
+
+            for (int i = 0; i < constants.SizeBrain; i++)
+            {
+                GenomViewModels.Add(new GenomViewModel(i % 8, i / 8, selectedBio.Pointer == i, selectedBio.Brain[i].ToString())); //TODO: Не забыть про 8
+            }
+
+            selectedBio.Dead += SelectedBio_Dead;
+            selectedBio.ChangePointer += SelectedBio_ChangePointer;
+        }
+
+        private void SelectedBio_Dead(object sender, bool e)
+        {
+            selectedBio.ChangePointer -= SelectedBio_ChangePointer;
+            selectedBio.Dead -= SelectedBio_Dead;
+            selectedBio.IsSelected = false;
+            selectedBio = null;
+            GenomViewModels = null;
+        }
+
+        private void SelectedBio_ChangePointer(object sender, int e)
+        {
+            GenomViewModels[prevIndexBrain].IsSelected = false;
+            GenomViewModels[e].IsSelected = true;
+            prevIndexBrain = e;
         }
     }
 }

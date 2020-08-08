@@ -30,8 +30,7 @@ namespace NaturalSelection.ViewModel
         private ViewModelBio selectedBio;
         private int[] pointsY;
         private ChartLife chartLife;
-        private ObservableCollection<BrainViewModel> brainViewModels;
-        private int prevIndexBrain = 0;
+        private BrainViewModel brainViewModel;
 
         private ICommand cStart;
         private ICommand cStop;
@@ -76,15 +75,6 @@ namespace NaturalSelection.ViewModel
         #endregion
 
         #region Свойства
-        public ObservableCollection<BrainViewModel> BrainViewModels
-        {
-            get { return brainViewModels; }
-            set
-            {
-                brainViewModels = value;
-                RaisePropertyChanged("BrainViewModels");
-            }
-        }
         public int WidthChart
         {
             get { return widthGraf; }
@@ -183,7 +173,17 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("CountColumns");
             }
         }
+        public BrainViewModel BrainViewModel
+        {
+            get { return brainViewModel; }
+            set
+            {
+                brainViewModel = value;
+                RaisePropertyChanged("BrainViewModel");
+            }
+        }
         #endregion
+
 
         public MainWindowViewModel()
         {
@@ -196,6 +196,7 @@ namespace NaturalSelection.ViewModel
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
             chartLife = new ChartLife();
+            brainViewModel = new BrainViewModel();
 
             Speed = 20;
 
@@ -239,39 +240,13 @@ namespace NaturalSelection.ViewModel
         {
             if (SelectedBio != null)
             {
-                SelectedBio.ChangePointer -= SelectedBio_ChangePointer;
-                SelectedBio.Dead -= SelectedBio_Dead;
                 SelectedBio.IsSelected = false;
             }
 
             SelectedBio = obj as ViewModelBio;
             SelectedBio.IsSelected = true;
 
-            BrainViewModels = new ObservableCollection<BrainViewModel>();
-
-            for (int i = 0; i < constants.SizeBrain; i++)
-            {
-                BrainViewModels.Add(new BrainViewModel(i % 8, i / 8, SelectedBio.Pointer == i, SelectedBio.Brain[i].ToString()));
-            }
-
-            SelectedBio.Dead += SelectedBio_Dead;
-            SelectedBio.ChangePointer += SelectedBio_ChangePointer;
-        }
-
-        private void SelectedBio_Dead(object sender, bool e)
-        {
-            SelectedBio.ChangePointer -= SelectedBio_ChangePointer;
-            SelectedBio.Dead -= SelectedBio_Dead;
-            SelectedBio.IsSelected = false;
-            SelectedBio = null;
-            BrainViewModels = null;
-        }
-
-        private void SelectedBio_ChangePointer(object sender, int e)
-        {
-            BrainViewModels[prevIndexBrain].IsSelected = false;
-            BrainViewModels[e].IsSelected = true;
-            prevIndexBrain = e;
+            brainViewModel.SetSelectedBio(SelectedBio);
         }
     }
 }
