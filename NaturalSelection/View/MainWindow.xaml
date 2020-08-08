@@ -24,7 +24,6 @@
         <convert:ObservableToPointCollectionConverter x:Key="PointConvert" />
         <convert:BoolToColorBackgroundConverter x:Key="BackgroundConvert" />
         <!--<commands:SliderMouseWheelCommand x:Key="SliderMouseWheel" /> -->
-        <!--<user:BrainViewModel x:Key="BrainViewModel"/>-->
 
         <DataTemplate DataType="{x:Type user:GenomViewModel}">
             <Grid Background="{Binding IsSelected, Converter={StaticResource BackgroundConvert}}">
@@ -101,8 +100,8 @@
             Margin="8.4,99,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Command="{Binding ComStart}"
-            Content="Старт"
+            Command="{Binding ComStartPause}"
+            Content="{Binding ButtonContent}"
             FontWeight="Bold" />
         <Button
             Grid.Column="1"
@@ -110,8 +109,8 @@
             Margin="117.4,99,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Command="{Binding ComStop}"
-            Content="Стоп"
+            Command="{Binding ComReset}"
+            Content="Сбросить"
             FontWeight="Bold" />
         <Label
             Grid.Column="1"
@@ -244,7 +243,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            
+
         </Grid>
     </Grid>
 </Window>

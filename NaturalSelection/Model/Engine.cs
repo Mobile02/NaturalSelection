@@ -16,15 +16,17 @@ namespace NaturalSelection.Model
         private int timeLife;
         private int generation;
         private int maxTimeLife;
+        private Thread MainThread;
 
         private void RaiseTimeLifeProperty(int value) => ChangeTimeLifeProperty?.Invoke(this, value);
         private void RaiseGenerationProperty(int value) => ChangeGenerationProperty?.Invoke(this, value);
         private void RaiseMaxTimeLifeProperty(int value) => ChangeMaxTimeLifeProperty?.Invoke(this, value);
-
+        private void RaiseOnReset(bool value) => OnReset?.Invoke(this, value);
 
         public event EventHandler<int> ChangeTimeLifeProperty;
         public event EventHandler<int> ChangeGenerationProperty;
         public event EventHandler<int> ChangeMaxTimeLifeProperty;
+        public event EventHandler<bool> OnReset;
 
         #region Свойства
         public BaseSquare[] WorldMap { get; set; }
@@ -62,13 +64,27 @@ namespace NaturalSelection.Model
         {
             eventSlim = new ManualResetEventSlim(false);
             constants = new Constants();
+
+            StartNewSelection();
+        }
+
+        private void StartNewSelection()
+        {
+            Counter.CountAcid = 0;
+            Counter.CountFood = 0;
+            Counter.CountLiveBio = 0;
+            Counter.Index = 0;
+
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
             new CreatorSquares().InitWorldMap(WorldMap);
 
             ArrayTimeLife = new int[constants.CountCicle];
 
-            new Thread(MainAsync) { IsBackground = true, Priority = ThreadPriority.AboveNormal }.Start();
+            MainThread = new Thread(MainAsync);
+            MainThread.IsBackground = true;
+            MainThread.Priority = ThreadPriority.AboveNormal;
+            MainThread.Start();
         }
 
         private void MainAsync()
@@ -106,7 +122,14 @@ namespace NaturalSelection.Model
         public void Stop()
         {
             eventSlim.Reset();
-            new FileOperations().SaveBrain(WorldMap);
+        }
+
+        public void Reset()
+        {
+            if (MainThread != null)
+                MainThread.Abort();
+
+            RaiseOnReset(true);
         }
     }
 }

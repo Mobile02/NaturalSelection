@@ -15,12 +15,12 @@ namespace NaturalSelection.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ViewModelSquares[] worldMap;
+        private ObservableCollection<ViewModelSquares> worldMap;
         private readonly Constants constants = new Constants();
-        private readonly Engine engine;
+        private Engine engine;
         private int countRows;
         private int countColumns;
-        ConstructorSquareViewModel constructor;
+        private ConstructorSquareViewModel constructor;
         private int widthGraf;
         private ObservableCollection<int[]> chartTimeLife;
         private int timeLife;
@@ -31,33 +31,36 @@ namespace NaturalSelection.ViewModel
         private int[] pointsY;
         private ChartLife chartLife;
         private BrainViewModel brainViewModel;
+        private bool IsRunning;
+        private string buttonContent;
 
-        private ICommand cStart;
-        private ICommand cStop;
+        private ICommand cStartPause;
+        private ICommand cReset;
         private ICommand selectItemCommand;
+        
 
         #region Commands
-        public ICommand ComStart
+        public ICommand ComStartPause
         {
             get
             {
-                if (cStart == null)
+                if (cStartPause == null)
                 {
-                    return cStart = new RelayCommand(obj => Start());
+                    return cStartPause = new RelayCommand(obj => OnStartStop(), obj => CanStartStop());
                 }
-                return cStart;
+                return cStartPause;
             }
         }
 
-        public ICommand ComStop
+        public ICommand ComReset
         {
             get
             {
-                if (cStop == null)
+                if (cReset == null)
                 {
-                    return cStop = new RelayCommand(obj => Stop());
+                    return cReset = new RelayCommand(obj => Reset());
                 }
-                return cStop;
+                return cReset;
             }
         }
 
@@ -145,7 +148,7 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("Generation");
             }
         }
-        public ViewModelSquares[] WorldMap
+        public ObservableCollection<ViewModelSquares> WorldMap
         {
             get { return worldMap; }
             set
@@ -182,10 +185,27 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("BrainViewModel");
             }
         }
+
+        public string ButtonContent 
+        {   
+            get { return buttonContent; }
+            set
+            {
+                buttonContent = value;
+                RaisePropertyChanged("ButtonContent");
+            }
+        }
         #endregion
 
 
         public MainWindowViewModel()
+        {
+            brainViewModel = new BrainViewModel();
+
+            InitialWorldMap();
+        }
+
+        private void InitialWorldMap()
         {
             CountRows = constants.WorldSizeY;
             CountColumns = constants.WorldSizeX;
@@ -196,27 +216,22 @@ namespace NaturalSelection.ViewModel
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
             chartLife = new ChartLife();
-            brainViewModel = new BrainViewModel();
-
+            
             Speed = 20;
 
             pointsY = engine.ArrayTimeLife;
 
-            RefreshMap();
-
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
             engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
-        }
+            engine.OnReset += (sender, e) => InitialWorldMap();
 
-        private void RefreshMap()
-        {
-            WorldMap = new ViewModelSquares[constants.WorldSizeX * constants.WorldSizeY];
+            WorldMap = new ObservableCollection<ViewModelSquares>();
 
             for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
             {
                 if (engine.WorldMap[i] != null)
-                    WorldMap[i] = constructor.ConstructorViewModel(engine.WorldMap[i]);
+                    WorldMap.Add(constructor.ConstructorViewModel(engine.WorldMap[i]));
             }
         }
 
@@ -226,14 +241,10 @@ namespace NaturalSelection.ViewModel
             ChartTimeLife = chartLife.UpdateChart(ChartTimeLife, pointsY, Generation);
         }
 
-        private void Start()
+        private void Reset()
         {
-            engine.Start();
-        }
-
-        private void Stop()
-        {
-            engine.Stop();
+            engine.Reset();
+            IsRunning = false;
         }
 
         private void SelectedItemCommand(object obj)
@@ -247,6 +258,32 @@ namespace NaturalSelection.ViewModel
             SelectedBio.IsSelected = true;
 
             brainViewModel.SetSelectedBio(SelectedBio);
+        }
+
+        private bool CanStartStop()
+        {
+            if (IsRunning)
+            {
+                ButtonContent = "Пауза";
+            }
+            else
+            {
+                ButtonContent = "Старт";
+            }
+
+            return true;
+        }
+        private void OnStartStop()
+        {
+            if (IsRunning)
+            {
+                IsRunning = false;
+                engine.Stop();
+                return;
+            }
+
+            engine.Start();
+            IsRunning = true;
         }
     }
 }
