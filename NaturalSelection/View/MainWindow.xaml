@@ -244,5 +244,21 @@
             </ItemsControl>
 
         </Grid>
+        <Button
+            Grid.Column="1"
+            Width="75"
+            Margin="15.4,215,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Save"
+            Command="{Binding ComSave}"/>
+        <Button
+            Grid.Column="1"
+            Width="75"
+            Margin="115.4,215,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Load"
+            Command="{Binding ComLoad}"/>
     </Grid>
 </Window>

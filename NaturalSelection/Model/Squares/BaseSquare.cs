@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace NaturalSelection.Model
 {
+    [Serializable]
     public abstract class BaseSquare
     {
         public abstract int PointX { get; set; }

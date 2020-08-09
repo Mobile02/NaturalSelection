@@ -37,6 +37,8 @@ namespace NaturalSelection.ViewModel
         private ICommand cStartPause;
         private ICommand cReset;
         private ICommand selectItemCommand;
+        private ICommand cSave;
+        private ICommand cLoad;
 
 
         #region Commands
@@ -72,6 +74,28 @@ namespace NaturalSelection.ViewModel
                     return selectItemCommand = new RelayCommand(obj => SelectedItemCommand(obj));
 
                 return selectItemCommand;
+            }
+        }
+
+        public ICommand ComSave
+        {
+            get
+            {
+                if (cSave == null)
+                    return cSave = new RelayCommand(obj => CommandSave());
+
+                return cSave;
+            }
+        }
+
+        public ICommand ComLoad
+        {
+            get
+            {
+                if (cLoad == null)
+                    return cLoad = new RelayCommand(obj => CommandLoad());
+
+                return cLoad;
             }
         }
 
@@ -205,14 +229,14 @@ namespace NaturalSelection.ViewModel
             InitialWorldMap();
         }
 
-        private void InitialWorldMap()
+        private void InitialWorldMap(bool isLoadingSave = false) //TODO: переделать, какая то ерунда получилась, в engine тоже
         {
             CountRows = constants.WorldSizeY;
             CountColumns = constants.WorldSizeX;
             pointsY = new int[constants.CountCicle];
             WidthChart = (int)(constants.WorldSizeX * 15 + (constants.WorldSizeX * 1.5));
 
-            engine = new Engine();
+            engine = new Engine(isLoadingSave);
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
             chartLife = new ChartLife();
@@ -290,6 +314,21 @@ namespace NaturalSelection.ViewModel
 
             engine.Start();
             IsRunning = true;
+        }
+        private void CommandSave()
+        {
+            engine.SaveWorldMap();
+        }
+        private void CommandLoad()
+        {
+            IsRunning = false;
+            SelectedBio = null;
+            brainViewModel.SetSelectedBio(null);
+            MaxTimeLife = 0;
+            TimeLife = 0;
+            Generation = 0;
+
+            InitialWorldMap(true);
         }
     }
 }

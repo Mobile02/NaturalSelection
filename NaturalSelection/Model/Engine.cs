@@ -29,7 +29,8 @@ namespace NaturalSelection.Model
         public event EventHandler<bool> OnReset;
 
         #region Свойства
-        public BaseSquare[] WorldMap { get; private set; }
+        public BaseSquare[] WorldMap { get; set; }
+        
         public int TimeLife
         {
             get { return timeLife; }
@@ -60,15 +61,15 @@ namespace NaturalSelection.Model
         public int Speed { get; set; }
         public int[] ArrayTimeLife;
         #endregion
-        public Engine()
+        public Engine(bool isLoadingSave = false)
         {
             eventSlim = new ManualResetEventSlim(false);
             constants = new Constants();
 
-            StartNewSelection();
+            StartNewSelection(isLoadingSave);
         }
 
-        private void StartNewSelection(string PathToSavedWorldMap = "")
+        private void StartNewSelection(bool isLoadingSave)
         {
             Counter.CountAcid = 0;
             Counter.CountFood = 0;
@@ -77,18 +78,20 @@ namespace NaturalSelection.Model
 
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
-            if (PathToSavedWorldMap == "")
+            if (!isLoadingSave)
                 new CreatorSquares().InitWorldMap(WorldMap);
             else
             {
-                //TODO: Сделать загрузку сохранения
+                LoadWorldMap();
             }
 
             ArrayTimeLife = new int[constants.CountCicle];
 
-            MainThread = new Thread(MainAsync);
-            MainThread.IsBackground = true;
-            MainThread.Priority = ThreadPriority.AboveNormal;
+            MainThread = new Thread(MainAsync)
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.AboveNormal
+            };
             MainThread.Start();
         }
 
@@ -135,6 +138,37 @@ namespace NaturalSelection.Model
                 MainThread.Abort();
 
             RaiseOnReset(true);
+        }
+
+        public void SaveWorldMap()
+        {
+            new FileOperations().SaveWorldMap(WorldMap);
+        }
+
+        public void LoadWorldMap()
+        {
+            if (MainThread != null)
+                MainThread.Abort();
+
+            WorldMap = new FileOperations().LoadWorldMap();
+
+            CalculationIndex();
+        }
+
+        private void CalculationIndex()
+        {
+            for (int i = 0; i < constants.WorldSizeX * constants.WorldSizeY; i++)
+            {
+                if (WorldMap[i] is BioSquare && WorldMap[i].PointX != -1)
+                    Counter.CountLiveBio++;
+                if (WorldMap[i] is AcidSquare && WorldMap[i].PointX != -1)
+                    Counter.CountAcid++;
+                if (WorldMap[i] is FoodSquare && WorldMap[i].PointX != -1)
+                    Counter.CountFood++;
+                if (WorldMap[i] is null)
+                    return;
+                Counter.Index++;
+            }
         }
     }
 }

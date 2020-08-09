@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NaturalSelection.Model.Support
 {
@@ -33,6 +35,30 @@ namespace NaturalSelection.Model.Support
             {
                 streamWriter.WriteLine("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             }
+        }
+
+        public void SaveWorldMap(BaseSquare[] worldMap)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fileStream = new FileStream("WorldMap.dat", FileMode.Create))
+            {
+                formatter.Serialize(fileStream, worldMap);
+                MessageBox.Show("Сохранено", "Save", MessageBoxButton.OK);
+            }
+        }
+
+        public BaseSquare[] LoadWorldMap()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            BaseSquare[] worldMap = new BaseSquare[new Constants().WorldSizeX * new Constants().WorldSizeY];
+
+            using (FileStream fileStream = new FileStream("WorldMap.dat", FileMode.Open))
+            {
+                worldMap = (BaseSquare[])formatter.Deserialize(fileStream);
+            }
+
+            return worldMap;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NaturalSelection.Model
 {
+    [Serializable]
     public class AcidSquare : BaseSquare
     {
         private int pointX;
@@ -14,7 +15,9 @@ namespace NaturalSelection.Model
         private void RaisePointX(int value) => ChangePointX?.Invoke(this, value);
         private void RaisePointY(int value) => ChangePointY?.Invoke(this, value);
 
+        [field: NonSerialized]
         public event EventHandler<int> ChangePointX;
+        [field: NonSerialized]
         public event EventHandler<int> ChangePointY;
 
         public override int PointX

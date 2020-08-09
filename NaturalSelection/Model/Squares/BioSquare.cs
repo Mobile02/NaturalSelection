@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NaturalSelection.Model
 {
+    [Serializable]
     public class BioSquare : BaseSquare, ICloneable
     {
         private int health;
@@ -18,10 +19,13 @@ namespace NaturalSelection.Model
         private void RaisePointY(int value) => ChangePointY?.Invoke(this, value);
         private void RaisePointer(int value) => ChangePointer?.Invoke(this, value);
 
-
+        [field: NonSerialized]
         public event EventHandler<int> ChangeHealth;
+        [field: NonSerialized]
         public event EventHandler<int> ChangePointX;
+        [field: NonSerialized]
         public event EventHandler<int> ChangePointY;
+        [field: NonSerialized]
         public event EventHandler<int> ChangePointer;
 
         public int Health
