@@ -295,9 +295,6 @@ namespace NaturalSelection.ViewModel
             IsRuning = false;
             SelectedBio = null;
             brainViewModel.SetSelectedBio(null);
-            MaxTimeLife = 0;
-            TimeLife = 0;
-            Generation = 0;
         }
 
         private void SelectedItemCommand(object obj)

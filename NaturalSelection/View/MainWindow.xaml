@@ -112,7 +112,8 @@
             VerticalAlignment="Top"
             Command="{Binding ComReset}"
             Content="Сбросить"
-            FontWeight="Bold" />
+            FontWeight="Bold"
+            IsEnabled="{Binding IsRuning, Converter={StaticResource BooleanNotConverter}}"/>
         <Label
             Grid.Column="1"
             Margin="3.4,11,0,0"

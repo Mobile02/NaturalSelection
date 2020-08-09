@@ -135,6 +135,7 @@ namespace NaturalSelection.Model
         public void Stop()
         {
             eventSlim.Reset();
+            ResetVariables();
         }
 
         public void Reset()
@@ -143,6 +144,7 @@ namespace NaturalSelection.Model
                 MainThread.Abort();
 
             StartNewSelection();
+            ResetVariables();
             RaiseWorldMap(WorldMap);
         }
 
@@ -176,6 +178,13 @@ namespace NaturalSelection.Model
                     return;
                 Counter.Index++;
             }
+        }
+
+        private void ResetVariables()
+        {
+            MaxTimeLife = 0;
+            TimeLife = 0;
+            Generation = 0;
         }
     }
 }
