@@ -44,7 +44,6 @@ namespace NaturalSelection.Model.Support
             using (FileStream fileStream = new FileStream("WorldMap.dat", FileMode.Create))
             {
                 formatter.Serialize(fileStream, worldMap);
-                MessageBox.Show("Сохранено", "Save", MessageBoxButton.OK);
             }
         }
 

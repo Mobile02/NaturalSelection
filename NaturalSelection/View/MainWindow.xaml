@@ -23,6 +23,7 @@
         <convert:BoolToColorTxtConvert x:Key="BoolToColorTxtConvert" />
         <convert:ObservableToPointCollectionConverter x:Key="PointConvert" />
         <convert:BoolToColorBackgroundConverter x:Key="BackgroundConvert" />
+        <convert:BooleanNotConverter x:Key="BooleanNotConverter"/>
         <!--<commands:SliderMouseWheelCommand x:Key="SliderMouseWheel" /> -->
 
         <DataTemplate DataType="{x:Type user:GenomViewModel}">
@@ -250,15 +251,17 @@
             Margin="15.4,215,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Command="{Binding ComSave}"
             Content="Save"
-            Command="{Binding ComSave}"/>
+            IsEnabled="{Binding IsRuning, Converter={StaticResource BooleanNotConverter}}" />
         <Button
             Grid.Column="1"
             Width="75"
             Margin="115.4,215,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Command="{Binding ComLoad}"
             Content="Load"
-            Command="{Binding ComLoad}"/>
+            IsEnabled="{Binding IsRuning, Converter={StaticResource BooleanNotConverter}}" />
     </Grid>
 </Window>

@@ -17,20 +17,29 @@ namespace NaturalSelection.Model
         private int generation;
         private int maxTimeLife;
         private Thread MainThread;
+        private BaseSquare[] worldMap;
 
         private void RaiseTimeLifeProperty(int value) => ChangeTimeLifeProperty?.Invoke(this, value);
         private void RaiseGenerationProperty(int value) => ChangeGenerationProperty?.Invoke(this, value);
         private void RaiseMaxTimeLifeProperty(int value) => ChangeMaxTimeLifeProperty?.Invoke(this, value);
-        private void RaiseOnReset(bool value) => OnReset?.Invoke(this, value);
+        private void RaiseWorldMap(BaseSquare[] value) => ChangeWorldMap?.Invoke(this, value);
 
         public event EventHandler<int> ChangeTimeLifeProperty;
         public event EventHandler<int> ChangeGenerationProperty;
         public event EventHandler<int> ChangeMaxTimeLifeProperty;
-        public event EventHandler<bool> OnReset;
+        public event EventHandler<BaseSquare[]> ChangeWorldMap;
 
         #region Свойства
-        public BaseSquare[] WorldMap { get; set; }
-        
+        public BaseSquare[] WorldMap 
+        {
+            get { return worldMap; }
+            private set
+            {
+                worldMap = value;
+                RaiseWorldMap(WorldMap);
+            }
+        }
+
         public int TimeLife
         {
             get { return timeLife; }
@@ -61,15 +70,15 @@ namespace NaturalSelection.Model
         public int Speed { get; set; }
         public int[] ArrayTimeLife;
         #endregion
-        public Engine(bool isLoadingSave = false)
+        public Engine()
         {
             eventSlim = new ManualResetEventSlim(false);
             constants = new Constants();
 
-            StartNewSelection(isLoadingSave);
+            StartNewSelection();
         }
 
-        private void StartNewSelection(bool isLoadingSave)
+        private void StartNewSelection(bool loadingSave = false)
         {
             Counter.CountAcid = 0;
             Counter.CountFood = 0;
@@ -78,12 +87,8 @@ namespace NaturalSelection.Model
 
             WorldMap = new BaseSquare[constants.WorldSizeX * constants.WorldSizeY];
 
-            if (!isLoadingSave)
+            if (!loadingSave)
                 new CreatorSquares().InitWorldMap(WorldMap);
-            else
-            {
-                LoadWorldMap();
-            }
 
             ArrayTimeLife = new int[constants.CountCicle];
 
@@ -137,7 +142,8 @@ namespace NaturalSelection.Model
             if (MainThread != null)
                 MainThread.Abort();
 
-            RaiseOnReset(true);
+            StartNewSelection();
+            RaiseWorldMap(WorldMap);
         }
 
         public void SaveWorldMap()
@@ -150,8 +156,9 @@ namespace NaturalSelection.Model
             if (MainThread != null)
                 MainThread.Abort();
 
+            StartNewSelection(true);
             WorldMap = new FileOperations().LoadWorldMap();
-
+            
             CalculationIndex();
         }
 

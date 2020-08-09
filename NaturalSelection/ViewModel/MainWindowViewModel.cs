@@ -31,7 +31,7 @@ namespace NaturalSelection.ViewModel
         private int[] pointsY;
         private ChartLife chartLife;
         private BrainViewModel brainViewModel;
-        private bool IsRunning;
+        private bool isRuning;
         private string buttonContent;
 
         private ICommand cStartPause;
@@ -219,36 +219,45 @@ namespace NaturalSelection.ViewModel
                 RaisePropertyChanged("ButtonContent");
             }
         }
+
+        public bool IsRuning
+        {
+            get { return isRuning; }
+            set
+            {
+                isRuning = value;
+                RaisePropertyChanged("IsRuning");
+            }
+        }
+
         #endregion
 
 
         public MainWindowViewModel()
         {
             brainViewModel = new BrainViewModel();
+            engine = new Engine();
 
             InitialWorldMap();
         }
 
-        private void InitialWorldMap(bool isLoadingSave = false) //TODO: переделать, какая то ерунда получилась, в engine тоже
+        private void InitialWorldMap()
         {
-            CountRows = constants.WorldSizeY;
-            CountColumns = constants.WorldSizeX;
-            pointsY = new int[constants.CountCicle];
-            WidthChart = (int)(constants.WorldSizeX * 15 + (constants.WorldSizeX * 1.5));
-
-            engine = new Engine(isLoadingSave);
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
             chartLife = new ChartLife();
 
-            Speed = 20;
-
+            CountRows = constants.WorldSizeY;
+            CountColumns = constants.WorldSizeX;
+            pointsY = new int[constants.CountCicle];
             pointsY = engine.ArrayTimeLife;
+            WidthChart = (int)(constants.WorldSizeX * 15 + (constants.WorldSizeX * 1.5));
+            Speed = 20;
 
             engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
             engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
             engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
-            engine.OnReset += (sender, e) => InitialWorldMap();
+            engine.ChangeWorldMap += (sender, e) => InitialWorldMap();
 
             WorldMap = new ObservableCollection<ViewModelSquares>();
 
@@ -267,9 +276,23 @@ namespace NaturalSelection.ViewModel
 
         private void Reset()
         {
+            ResetVariables();
             engine.Reset();
+        }
 
-            IsRunning = false;
+        private void CommandSave()
+        {
+            engine.SaveWorldMap();
+        }
+        private void CommandLoad()
+        {
+            ResetVariables();
+            engine.LoadWorldMap();
+        }
+
+        private void ResetVariables()
+        {
+            IsRuning = false;
             SelectedBio = null;
             brainViewModel.SetSelectedBio(null);
             MaxTimeLife = 0;
@@ -292,43 +315,24 @@ namespace NaturalSelection.ViewModel
 
         private bool CanStartStop()
         {
-            if (IsRunning)
-            {
+            if (IsRuning)
                 ButtonContent = "Пауза";
-            }
             else
-            {
                 ButtonContent = "Старт";
-            }
 
             return true;
         }
         private void OnStartStop()
         {
-            if (IsRunning)
+            if (IsRuning)
             {
-                IsRunning = false;
+                IsRuning = false;
                 engine.Stop();
                 return;
             }
 
             engine.Start();
-            IsRunning = true;
-        }
-        private void CommandSave()
-        {
-            engine.SaveWorldMap();
-        }
-        private void CommandLoad()
-        {
-            IsRunning = false;
-            SelectedBio = null;
-            brainViewModel.SetSelectedBio(null);
-            MaxTimeLife = 0;
-            TimeLife = 0;
-            Generation = 0;
-
-            InitialWorldMap(true);
+            IsRuning = true;
         }
     }
 }
