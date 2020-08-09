@@ -15,8 +15,6 @@ namespace NaturalSelection.Model
 
         public int Index { get; set; }
 
-        public TypeSquare TypeSquare { get; protected set; }
-
         public BaseSquare (int x, int y, int index)
         {
             PointX = x;

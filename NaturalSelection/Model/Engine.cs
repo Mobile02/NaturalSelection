@@ -135,7 +135,6 @@ namespace NaturalSelection.Model
         public void Stop()
         {
             eventSlim.Reset();
-            ResetVariables();
         }
 
         public void Reset()

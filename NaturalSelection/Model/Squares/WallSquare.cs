@@ -41,9 +41,6 @@ namespace NaturalSelection.Model
         }
         public WallSquare(int x, int y, int index) : base(x, y, index)
         {
-            TypeSquare = TypeSquare.WALL;
-            pointX = x;
-            pointY = y;
         }
     }
 }

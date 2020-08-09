@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ namespace NaturalSelection.Model
         private BaseSquare[] worldMap;
         private readonly Constants constants = new Constants();
         private bool minCountLive = false;
-        private Dictionary<TypeSquare, Action> MovePointer;
         private Dictionary<Direction, coordinate> CalcNextCoordinate;
+        private Dictionary<Type, Action> MovePointer;
         private delegate void coordinate(ref Point newPoint);
         private BioSquare currentBio;
         private int currentIndex = 0;
@@ -26,12 +27,12 @@ namespace NaturalSelection.Model
         {
             this.worldMap = worldMap;
 
-            MovePointer = new Dictionary<TypeSquare, Action>
+            MovePointer = new Dictionary<Type, Action> 
             {
-                { TypeSquare.ACID, () => currentBio.Pointer++},
-                { TypeSquare.FOOD, () => currentBio.Pointer += 2 },
-                { TypeSquare.BIO, () => currentBio.Pointer += 3 },
-                { TypeSquare.WALL, () => currentBio.Pointer += 5 }
+                { typeof(AcidSquare), () => currentBio.Pointer++ },
+                { typeof(FoodSquare), () => currentBio.Pointer += 2 },
+                { typeof(BioSquare), () => currentBio.Pointer += 3 },
+                { typeof(WallSquare), () => currentBio.Pointer += 5 }
             };
 
             CalcNextCoordinate = new Dictionary<Direction, coordinate>
@@ -128,7 +129,7 @@ namespace NaturalSelection.Model
                                          constants.WorldSizeX * 2 + constants.WorldSizeY * 2 + constants.CountWall + 10);
 
             if (worldMap[indexForAction] != null)
-                MovePointer[worldMap[indexForAction].TypeSquare]();
+                MovePointer[worldMap[indexForAction].GetType()]();
             else
                 currentBio.Pointer += 4;
 

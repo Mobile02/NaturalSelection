@@ -43,10 +43,6 @@ namespace NaturalSelection.Model
         public int Energy { get; private set; }
         public FoodSquare(int x, int y, int index) : base(x, y, index)
         {
-            TypeSquare = TypeSquare.FOOD;
-            Energy = new Constants().Energy;
-            pointX = x;
-            pointY = y;
         }
     }
 }
