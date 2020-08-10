@@ -237,15 +237,20 @@ namespace NaturalSelection.ViewModel
         {
             brainViewModel = new BrainViewModel();
             engine = new Engine();
+            chartLife = new ChartLife();
 
             InitialWorldMap();
+
+            engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
+            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
+            engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
+            engine.ChangeWorldMap += (sender, e) => InitialWorldMap();
         }
 
         private void InitialWorldMap()
         {
             constructor = new ConstructorSquareViewModel();
             ChartTimeLife = new ObservableCollection<int[]>();
-            chartLife = new ChartLife();
 
             CountRows = constants.WorldSizeY;
             CountColumns = constants.WorldSizeX;
@@ -253,11 +258,6 @@ namespace NaturalSelection.ViewModel
             pointsY = engine.ArrayTimeLife;
             WidthChart = (int)(constants.WorldSizeX * 15 + (constants.WorldSizeX * 1.5));
             Speed = 20;
-
-            engine.ChangeTimeLifeProperty += (sender, e) => TimeLife = e;
-            engine.ChangeGenerationProperty += (sender, e) => { Generation = e; UpdateChartLife(); };
-            engine.ChangeMaxTimeLifeProperty += (sender, e) => MaxTimeLife = e;
-            engine.ChangeWorldMap += (sender, e) => InitialWorldMap();
 
             WorldMap = new ObservableCollection<ViewModelSquares>();
 

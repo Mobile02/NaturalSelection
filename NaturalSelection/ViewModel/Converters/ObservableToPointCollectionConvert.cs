@@ -24,7 +24,7 @@ namespace NaturalSelection.ViewModel.Converters
 
             for (int i = 0; i < points.Count(); i++)
             {
-                pointCollection.Add(new Point(points.ElementAt(i)[0], points.ElementAt(i)[1]));
+                pointCollection.Add(new Point(points[i][0], points[i][1]));
             }
 
             return pointCollection;
